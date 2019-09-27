@@ -1,10 +1,9 @@
 /**
  * Created by AnLuTong on 2016-12-21.
  */
+var url = $("#list_api_dir").val();
 $(function(){
-
 	function listFiles(){
-		var url = $("#list_api_dir").val();
 		var reqData = {
 			make: $("#list_make").val(),
 			keywork: $("#list_keyword").val(),
@@ -12,67 +11,7 @@ $(function(){
 		};
 		H.post(url, reqData, function (res) {
 			for(var i in res.list){
-				var item = res.list[i];
-				var href = "javascript:void(0);";
-
-				var fileName = item.name;
-				var indexOf = fileName.indexOf(".");
-				var fa = "fa-file-o";
-				if (item.type === 0){
-					fa = "fa-folder-o"
-					href = url + "/" + item.ossKey;
-				}else{
-					if (indexOf !== 0){
-						fileName = fileName.substring(indexOf);
-						if (fileName){
-							if (fileName.toUpperCase() === '.ZIP' || fileName.toUpperCase() === '.RAR'
-								|| fileName.toUpperCase() === '.7Z' || fileName.toUpperCase() === '.TAR'
-								|| fileName.toUpperCase() === '.ISO' || fileName.toUpperCase() === '.IMG'){
-								fa = "fa-file-zip-o";
-							}else if (fileName.toUpperCase() === '.JPG' || fileName.toUpperCase() === '.JPEG'
-								|| fileName.toUpperCase() === '.GIF' || fileName.toUpperCase() === '.PNG'
-								|| fileName.toUpperCase() === '.ICO' || fileName.toUpperCase() === '.BMP'){
-								fa = "fa-file-image-o";
-							}else if (fileName.toUpperCase() === '.TXT' || fileName.toUpperCase() === '.DOC'
-								|| fileName.toUpperCase() === '.DOCX' || fileName.toUpperCase() === '.TIF'){
-								fa = "fa-file-word-o";
-							}else if (fileName.toUpperCase() === '.JS' || fileName.toUpperCase() === '.JAVA'
-								|| fileName.toUpperCase() === '.CPP' || fileName.toUpperCase() === '.XML'
-								|| fileName.toUpperCase() === '.HTML' || fileName.toUpperCase() === '.JSON'
-								|| fileName.toUpperCase() === '.CSS' || fileName.toUpperCase() === '.DART'
-								|| fileName.toUpperCase() === '.BAT' || fileName.toUpperCase() === '.SH'
-								|| fileName.toUpperCase() === '.CMD' || fileName.toUpperCase() === '.H'){
-								fa = "fa-file-code-o";
-							}else if (fileName.toUpperCase() === '.MP3' || fileName.toUpperCase() === '.MP4'
-								|| fileName.toUpperCase() === '.RMVB' || fileName.toUpperCase() === '.RM'
-								|| fileName.toUpperCase() === '.AVI' || fileName.toUpperCase() === '.3GP'
-								|| fileName.toUpperCase() === '.MPEG1-4' || fileName.toUpperCase() === '.MOV'
-								|| fileName.toUpperCase() === '.MTV' || fileName.toUpperCase() === '.DAT'
-								|| fileName.toUpperCase() === '.WMV' || fileName.toUpperCase() === '.AMV'
-								|| fileName.toUpperCase() === '.FLV' || fileName.toUpperCase() === '.DMV'){
-								fa = "fa-file-video-o";
-							}
-						}
-					}
-				}
-
-				var id = i + res.make;
-				$("tbody").append("<tr itemId=\"" + id + "\">\n" +
-					"                <td>\n" +
-					"                    <div class=\"chickBox\" fileId=\"" + id + "\"></div>\n" +
-					"                    <span class=\"fielName\">\n" +
-					"                        <i class=\"fa " + fa + "\"></i>\n" +
-					"                        <a href=\"" + href + "\">" + item.name + "</a>\n" +
-					"                    </span>\n" +
-					"                    <span class=\"fileWork\" hidden id=\"wk_" + id + "\">\n" +
-					"                        <a href=\"javascript:void(0);\"><i class=\"fa fa-cloud-download\"></i></a>\n" +
-					"                        <a href=\"javascript:void(0);\"><i class=\"fa fa-trash-o\"></i></a>\n" +
-					"                        <a href=\"javascript:void(0);\"><i class=\"fa fa-share-alt-square\"></i></a>\n" +
-					"                    </span>\n" +
-					"                </td>\n" +
-					"                <td>" + item.size + "</td>\n" +
-					"                <td> - </td>\n" +
-					"            </tr>");
+				appendFile(res.list[i])
 			}
 			init();
 		});
@@ -111,7 +50,7 @@ $(function(){
 
 		$(".fileList tbody tr").hover(function(){
 			$(".fileWork").hide();
-			$("#wk_" + $(this).attr("itemId")).show();
+			$(this).find(".fileWork").show();
 		}, function(){
 			$(".fileWork").hide();
 		});
@@ -122,15 +61,14 @@ $(function(){
     //新建文件夹
     $("#createFolder").click(function(){
     	parent.layer.prompt({title: '新建文件夹名', formType: 0}, function(text, index){
-    		$.post($("#thisPage").val() + "/createFolder", {name:text}, function(response){
-    			if(response.result){
-    				location = location;
-    				parent.layer.close(index);
-    			}else{
-    				parent.layer.msg(response.message);
-    			}
-    		}).error(function(){
-    			parent.layer.msg("文件夹创建失败");
+			H.post("createFolder", {name:text}, function(response){
+				parent.layer.close(index);
+				appendFile({
+					name: text,
+					ossKey: $("#list_dir").val().substring(1) + text + "/",
+					type: 0,
+					size: "-"
+				});
     		});
     	});
     });
@@ -161,76 +99,28 @@ function download(fileId){
 }
 
 /**
- * 删除文件
- * @param fileId
- * @returns
- */
-function deleteFile(fileId){
-	parent.layer.load();
-	
-	$.get($("#rootPage").val() + '/manager/delete/' + fileId, function(response){
-		if(response.result){
-			parent.layer.closeAll('loading');
-			parent.layer.msg("删除成功");
-			location = location;
-		}else{
-			parent.layer.closeAll('loading');
-			layer.msg(response.message);
-		}
-	}).error(function(){
-		parent.layer.closeAll('loading');
-		layer.msg("删除遇到错误");
-	});
-}
-
-/**
- * 彻底删除文件或文件夹
- * @param itemId
- * @returns
- */
-function deleteItem(itemId){
-	parent.layer.load();
-	
-	$.get($("#rootPage").val() + '/manager/deleteItem/' + itemId, function(response){
-		if(response.result){
-			parent.layer.closeAll('loading');
-			parent.layer.msg("删除成功");
-			location = location;
-		}else{
-			parent.layer.closeAll('loading');
-			layer.msg(response.message);
-		}
-	}).error(function(){
-		parent.layer.closeAll('loading');
-		layer.msg("删除遇到错误");
-	});
-}
-
-/**
  * 删除文件夹
  * @param fileId
  * @returns
  */
-function deleteFolder(fileId){
-	var index = parent.layer.confirm('删除文件夹后，其内的子文件夹以及文件都将被删除。是否继续？', {
+function deleteFolder(trId, fileId){
+	var msg = "确定要删除该文件吗?";
+	if (fileId.substring(fileId.length - 1) === "/"){
+		msg = "删除文件夹后，其内的子文件和文件夹将会一起被删除，确定要删除吗?";
+	}
+	var index = parent.layer.confirm(msg, {
 		  btn: ['继续','取消'] //按钮
 		}, function(){
 			//删除开始
 			parent.layer.load();
-			$.get($("#rootPage").val() + '/manager/delete/' + fileId, function(response){
-				if(response.result){
-					parent.layer.closeAll('loading');
-					parent.layer.msg("删除成功");
-					location = location;
-				}else{
-					parent.layer.closeAll('loading');
-					layer.msg(response.message);
-				}
-			}).error(function(){
+			H.post(url + "/../delete", {name: fileId}, function () {
 				parent.layer.closeAll('loading');
-				layer.msg("删除遇到错误");
+				parent.layer.msg("删除成功");
+				$("#" + trId).remove();
+			}, function (res) {
+				parent.layer.closeAll('loading');
+				parent.layer.msg(res.message);
 			});
-			
 		}, function(){
 			parent.layer.close(index);
 		});
@@ -309,4 +199,86 @@ function deletePassword(fileId){
 		parent.layer.closeAll('loading');
 		layer.msg("分享遇到错误");
 	});
+}
+
+/**
+ * 像文件列表中添加内容
+ * @param item
+ */
+function appendFile(item) {
+
+	var href = "javascript:void(0);";
+	var id = uuid();
+
+	var fileName = item.name;
+	var indexOf = fileName.indexOf(".");
+	var fa = "fa-file-o";
+	if (item.type === 0){
+		fa = "fa-folder-o"
+		href = url + "/" + item.ossKey;
+	}else{
+		if (indexOf !== 0){
+			fileName = fileName.substring(indexOf);
+			if (fileName){
+				if (fileName.toUpperCase() === '.ZIP' || fileName.toUpperCase() === '.RAR'
+					|| fileName.toUpperCase() === '.7Z' || fileName.toUpperCase() === '.TAR'
+					|| fileName.toUpperCase() === '.ISO' || fileName.toUpperCase() === '.IMG'){
+					fa = "fa-file-zip-o";
+				}else if (fileName.toUpperCase() === '.JPG' || fileName.toUpperCase() === '.JPEG'
+					|| fileName.toUpperCase() === '.GIF' || fileName.toUpperCase() === '.PNG'
+					|| fileName.toUpperCase() === '.ICO' || fileName.toUpperCase() === '.BMP'){
+					fa = "fa-file-image-o";
+				}else if (fileName.toUpperCase() === '.TXT' || fileName.toUpperCase() === '.DOC'
+					|| fileName.toUpperCase() === '.DOCX' || fileName.toUpperCase() === '.TIF'){
+					fa = "fa-file-word-o";
+				}else if (fileName.toUpperCase() === '.JS' || fileName.toUpperCase() === '.JAVA'
+					|| fileName.toUpperCase() === '.CPP' || fileName.toUpperCase() === '.XML'
+					|| fileName.toUpperCase() === '.HTML' || fileName.toUpperCase() === '.JSON'
+					|| fileName.toUpperCase() === '.CSS' || fileName.toUpperCase() === '.DART'
+					|| fileName.toUpperCase() === '.BAT' || fileName.toUpperCase() === '.SH'
+					|| fileName.toUpperCase() === '.CMD' || fileName.toUpperCase() === '.H'){
+					fa = "fa-file-code-o";
+				}else if (fileName.toUpperCase() === '.MP3' || fileName.toUpperCase() === '.MP4'
+					|| fileName.toUpperCase() === '.RMVB' || fileName.toUpperCase() === '.RM'
+					|| fileName.toUpperCase() === '.AVI' || fileName.toUpperCase() === '.3GP'
+					|| fileName.toUpperCase() === '.MPEG1-4' || fileName.toUpperCase() === '.MOV'
+					|| fileName.toUpperCase() === '.MTV' || fileName.toUpperCase() === '.DAT'
+					|| fileName.toUpperCase() === '.WMV' || fileName.toUpperCase() === '.AMV'
+					|| fileName.toUpperCase() === '.FLV' || fileName.toUpperCase() === '.DMV'){
+					fa = "fa-file-video-o";
+				}
+			}
+		}
+	}
+	$("tbody").append("<tr id=\"" + id + "\">\n" +
+		"                <td>\n" +
+		"                    <div class=\"chickBox\" fileId=\"" + item.ossKey + "\"></div>\n" +
+		"                    <span class=\"fielName\">\n" +
+		"                        <i class=\"fa " + fa + "\"></i>\n" +
+		"                        <a href=\"" + href + "\">" + item.name + "</a>\n" +
+		"                    </span>\n" +
+		"                    <span class=\"fileWork\" hidden id=\"wk_" + id + "\">\n" +
+		"                        <a href=\"javascript:void(0);\"><i class=\"fa fa-cloud-download\"></i></a>\n" +
+		"                        <a href=\"javascript:deleteFolder('" + id + "', '" + item.ossKey + "');\"><i class=\"fa fa-trash-o\"></i></a>\n" +
+		"                        <a href=\"javascript:void(0);\"><i class=\"fa fa-share-alt-square\"></i></a>\n" +
+		"                    </span>\n" +
+		"                </td>\n" +
+		"                <td>" + item.size + "</td>\n" +
+		"                <td> - </td>\n" +
+		"            </tr>");
+}
+
+
+function uuid() {
+	var s = [];
+	var hexDigits = "0123456789abcdef";
+	for (var i = 0; i < 36; i++) {
+		s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+	}
+	s[14] = "4"; // bits 12-15 of the time_hi_and_version field to 0010
+	s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1); // bits 6-7 of the clock_seq_hi_and_reserved to 01
+	s[8] = s[13] = s[18] = s[23] = "-";
+
+	var uuid = s.join("");
+	return uuid;
 }

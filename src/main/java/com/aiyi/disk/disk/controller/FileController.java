@@ -1,5 +1,6 @@
 package com.aiyi.disk.disk.controller;
 
+import com.aiyi.core.beans.ResultBean;
 import com.aiyi.core.util.thread.ThreadUtil;
 import com.aiyi.disk.disk.entity.FileItem;
 import com.aiyi.disk.disk.entity.UserPO;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
@@ -116,6 +119,63 @@ public class FileController {
         res.put("make", objectListing.getNextMarker());
         return res;
     }
+
+    /**
+     * 创建新文件夹
+     * @param fileItem
+     *      文件夹信息
+     * @return
+     */
+    @PostMapping("list/**/createFolder")
+    @ResponseBody
+    public ResultBean createFolder(@RequestBody FileItem fileItem, HttpServletRequest request){
+        String requestURI = request.getRequestURI();
+        String path = requestURI.substring(requestURI.indexOf("files/list") + 10);
+        try {
+            path = URLDecoder.decode(path, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        path = path.substring(1, path.lastIndexOf("/") + 1);
+        path += fileItem.getName() + "/";
+        System.out.println(path);
+
+        UserPO user = (UserPO) request.getSession().getAttribute("LOGIN_USER");
+        // 创建OSSClient实例
+        OSS client = new OSSClientBuilder().build(user.getEndPoint(), user.getAccessKey(), user.getAccessKeySecret());
+        InputStream stream = new ByteArrayInputStream(new byte[0]);
+        client.putObject(user.getBucket(), path, stream);
+        client.shutdown();
+        return ResultBean.success("船舰成功");
+    }
+
+
+    @PostMapping("delete")
+    @ResponseBody
+    public ResultBean delete(@RequestBody FileItem fileItem, HttpServletRequest request){
+        UserPO user = (UserPO) request.getSession().getAttribute("LOGIN_USER");
+        OSS client = new OSSClientBuilder().build(user.getEndPoint(), user.getAccessKey(), user.getAccessKeySecret());
+
+        final int maxKeys = 200;
+        String nextMarker = null;
+        ObjectListing objectListing;
+
+        do {
+            objectListing = client.listObjects(new ListObjectsRequest(user.getBucket()).withMarker(nextMarker)
+                    .withPrefix(fileItem.getName())
+                    .withMaxKeys(maxKeys));
+            List<OSSObjectSummary> sums = objectListing.getObjectSummaries();
+            for (OSSObjectSummary s : sums) {
+                client.deleteObject(user.getBucket(), s.getKey());
+            }
+            nextMarker = objectListing.getNextMarker();
+
+        } while (objectListing.isTruncated());
+
+        client.deleteObject(user.getBucket(), fileItem.getName());
+        return ResultBean.success("文件删除成功");
+    }
+
 
     /**
      * 获取文本格式的文件大小
