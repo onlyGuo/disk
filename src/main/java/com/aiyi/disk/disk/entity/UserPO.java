@@ -51,6 +51,9 @@ public class UserPO extends PO {
     @Validation(name = "阿里云OSS外网节点", maxLength = 255)
     private String endPoint;
 
+    @Validation(name = "用户头像")
+    private String avatar;
+
     public UserPO(){super();}
 
     private UserPO(Builder builder) {
@@ -66,12 +69,20 @@ public class UserPO extends PO {
         setAccessKeySecret(builder.accessKeySecret);
         setBucket(builder.bucket);
         setEndPoint(builder.endPoint);
+        setAvatar(builder.avatar);
     }
 
     public static Builder newBuilder() {
         return new Builder();
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
     public long getId() {
         return id;
@@ -182,6 +193,7 @@ public class UserPO extends PO {
         private String accessKeySecret;
         private String bucket;
         private String endPoint;
+        private String avatar;
 
         private Builder() {
         }
@@ -243,6 +255,11 @@ public class UserPO extends PO {
 
         public Builder endPoint(String val) {
             endPoint = val;
+            return this;
+        }
+
+        public Builder avatar(String val) {
+            avatar = val;
             return this;
         }
 

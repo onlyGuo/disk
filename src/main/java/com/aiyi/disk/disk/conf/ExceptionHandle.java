@@ -127,7 +127,8 @@ public class ExceptionHandle {
         String format = MessageFormat
                 .format("requestId:[{0}], msg:[{1}]", ThreadUtil.getRequestId(), e.getMessage());
         getLogger(e.getStackTrace()[0].getClassName()).error(format, e);
-        if (request.getHeader("Content-Type").toLowerCase().contains("application/json")){
+        String header = request.getHeader("Content-Type");
+        if (header != null && header.toLowerCase().contains("application/json")){
             return ResultBean.error(e.getMessage()).setCode(401);
         }else{
             try {

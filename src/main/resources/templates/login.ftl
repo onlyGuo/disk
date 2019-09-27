@@ -53,7 +53,27 @@
     </div>
 </div>
 
-<script src="./libs/jquery-3.2.1.min.js"></script>
-<script src="./libs/main.js"></script>
+<script src="${ctx}/libs/jquery.min.js"></script>
+<script src="${ctx}/libs/layer-v3.1.1/layer/layer.js"></script>
+<script src="${ctx}/libs/main.js"></script>
+<script src="${ctx}/libs/ajax/core.js"></script>
+<script src="${ctx}/libs/layerAjaxMsg/default.js"></script>
+
+<script>
+    function doSubmit(){
+        var data = {
+            username: $("input[name='username']").val(),
+            password: $("input[name='pass']").val()
+        };
+
+        H.post("login", data, function(res){
+            location.href = "home"
+        });
+
+
+
+    }
+
+</script>
 
 </body></html>

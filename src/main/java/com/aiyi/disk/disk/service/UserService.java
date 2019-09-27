@@ -16,4 +16,14 @@ public interface UserService {
      */
     UserPO createUser(UserPO user);
 
+    /**
+     * 通过用户名登录
+     * @param username
+     *      用户名
+     * @param password
+     *      密码
+     * @return
+     */
+    UserPO loginByUserName(String username, String password);
+
 }

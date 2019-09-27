@@ -54,14 +54,14 @@ public class RequestThreadFilterConf implements HandlerInterceptor {
             NoAuth methodAnnotation = method.getMethodAnnotation(NoAuth.class);
             if (null == methodAnnotation){
                 // 这里是认证入口
-                String token = getRequestToken(request);
-                String requestUri = null;
-                if (method.getMethodAnnotation(NoAccess.class) == null){
-                    requestUri = request.getRequestURI();
-                    ThreadUtil.setCacheData("access", true);
-                }else{
-                    ThreadUtil.setCacheData("access", false);
-                }
+//                String token = getRequestToken(request);
+//                String requestUri = null;
+//                if (method.getMethodAnnotation(NoAccess.class) == null){
+//                    requestUri = request.getRequestURI();
+//                    ThreadUtil.setCacheData("access", true);
+//                }else{
+//                    ThreadUtil.setCacheData("access", false);
+//                }
 //                loginUser = AccessAuthHelper.auth(token, requestUri, request.getMethod().toUpperCase());
 
                 loginUser = (UserPO) request.getSession().getAttribute("LOGIN_USER");
@@ -69,7 +69,7 @@ public class RequestThreadFilterConf implements HandlerInterceptor {
                 if (null == loginUser){
                     throw new AccessOAuthException("登录信息已过期, 请重新登录");
                 }else{
-                    ThreadUtil.setToken(token);
+//                    ThreadUtil.setToken(token);
                 }
             }
         }
