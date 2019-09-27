@@ -70,6 +70,7 @@ public class RequestThreadFilterConf implements HandlerInterceptor {
                     throw new AccessOAuthException("登录信息已过期, 请重新登录");
                 }else{
 //                    ThreadUtil.setToken(token);
+                    ThreadUtil.setUserEntity(loginUser);
                 }
             }
         }

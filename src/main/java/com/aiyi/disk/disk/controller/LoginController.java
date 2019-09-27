@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 /**
  * @author gsk
@@ -37,6 +40,16 @@ public class LoginController {
         UserPO userPO = userService.loginByUserName(user.getUsername(), user.getPassword());
         request.getSession().setAttribute("LOGIN_USER", userPO);
         return ResultBean.success("登录成功");
+    }
+
+    @RequestMapping("logout")
+    public void logout(HttpSession session, HttpServletResponse response, HttpServletRequest request){
+        session.setAttribute("LOGIN_USER", null);
+        try {
+            response.sendRedirect(request.getContextPath() + "/login");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

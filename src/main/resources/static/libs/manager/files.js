@@ -2,40 +2,119 @@
  * Created by AnLuTong on 2016-12-21.
  */
 $(function(){
-    $(".workBtns").hide();
-    $(".chickBox").click(function(){
-        var isSelected = false;
-        if($(this).attr("class") == "chickBox"){
-            $(this).attr("class", "chickBox fa fa-check")
-        }else{
-            $(this).attr("class", "chickBox")
-        }
-        if($(this).attr("fileId") == 'all'){
-            //全选
-            $(".chickBox").attr("class", $(this).attr("class"));
-        }
 
-        var $box = $(".chickBox");
-        for(var i = 0; i < $box.length; i++){
-            if($($box[i]).attr("class") == "chickBox fa fa-check"){
-                isSelected = true;
-            }
-        }
+	function listFiles(){
+		var url = $("#list_api_dir").val();
+		var reqData = {
+			make: $("#list_make").val(),
+			keywork: $("#list_keyword").val(),
+			dir: $("#list_dir").val()
+		};
+		H.post(url, reqData, function (res) {
+			for(var i in res.list){
+				var item = res.list[i];
 
-        if (isSelected){
-            $(".workBtns").show();
-        }else{
-            $(".workBtns").hide();
-        }
-    });
+				var fileName = item.name;
+				var indexOf = fileName.indexOf(".");
+				var fa = "fa-file-o";
+				if (item.type === 0){
+					fa = "fa-folder-o"
+				}else{
+					if (indexOf !== 0){
+						fileName = fileName.substring(indexOf);
+						if (fileName){
+							if (fileName.toUpperCase() === '.ZIP' || fileName.toUpperCase() === '.RAR'
+								|| fileName.toUpperCase() === '.7Z' || fileName.toUpperCase() === '.TAR'
+								|| fileName.toUpperCase() === '.ISO' || fileName.toUpperCase() === '.IMG'){
+								fa = "fa-file-zip-o";
+							}else if (fileName.toUpperCase() === '.JPG' || fileName.toUpperCase() === '.JPEG'
+								|| fileName.toUpperCase() === '.GIF' || fileName.toUpperCase() === '.PNG'
+								|| fileName.toUpperCase() === '.ICO' || fileName.toUpperCase() === '.BMP'){
+								fa = "fa-file-image-o";
+							}else if (fileName.toUpperCase() === '.TXT' || fileName.toUpperCase() === '.DOC'
+								|| fileName.toUpperCase() === '.DOCX' || fileName.toUpperCase() === '.TIF'){
+								fa = "fa-file-word-o";
+							}else if (fileName.toUpperCase() === '.JS' || fileName.toUpperCase() === '.JAVA'
+								|| fileName.toUpperCase() === '.CPP' || fileName.toUpperCase() === '.XML'
+								|| fileName.toUpperCase() === '.HTML' || fileName.toUpperCase() === '.JSON'
+								|| fileName.toUpperCase() === '.CSS' || fileName.toUpperCase() === '.DART'
+								|| fileName.toUpperCase() === '.BAT' || fileName.toUpperCase() === '.SH'
+								|| fileName.toUpperCase() === '.CMD' || fileName.toUpperCase() === '.H'){
+								fa = "fa-file-code-o";
+							}else if (fileName.toUpperCase() === '.MP3' || fileName.toUpperCase() === '.MP4'
+								|| fileName.toUpperCase() === '.RMVB' || fileName.toUpperCase() === '.RM'
+								|| fileName.toUpperCase() === '.AVI' || fileName.toUpperCase() === '.3GP'
+								|| fileName.toUpperCase() === '.MPEG1-4' || fileName.toUpperCase() === '.MOV'
+								|| fileName.toUpperCase() === '.MTV' || fileName.toUpperCase() === '.DAT'
+								|| fileName.toUpperCase() === '.WMV' || fileName.toUpperCase() === '.AMV'
+								|| fileName.toUpperCase() === '.FLV' || fileName.toUpperCase() === '.DMV'){
+								fa = "fa-file-video-o";
+							}
+						}
+					}
+				}
+
+				var id = i + res.make;
+				$("tbody").append("<tr itemId=\"" + id + "\">\n" +
+					"                <td>\n" +
+					"                    <div class=\"chickBox\" fileId=\"" + id + "\"></div>\n" +
+					"                    <span class=\"fielName\">\n" +
+					"                        <i class=\"fa " + fa + "\"></i>\n" +
+					"                        <a href=\"" + url + "/" + item.ossKey + "\">" + item.name + "</a>\n" +
+					"                    </span>\n" +
+					"                    <span class=\"fileWork\" hidden id=\"wk_" + id + "\">\n" +
+					"                        <a href=\"javascript:void(0);\"><i class=\"fa fa-cloud-download\"></i></a>\n" +
+					"                        <a href=\"javascript:void(0);\"><i class=\"fa fa-trash-o\"></i></a>\n" +
+					"                        <a href=\"javascript:void(0);\"><i class=\"fa fa-share-alt-square\"></i></a>\n" +
+					"                    </span>\n" +
+					"                </td>\n" +
+					"                <td>" + item.size + "</td>\n" +
+					"                <td> - </td>\n" +
+					"            </tr>");
+			}
+			init();
+		});
+	}
+
+	listFiles();
+
+	function init(){
+		$(".workBtns").hide();
+		$(".chickBox").click(function(){
+			var isSelected = false;
+			if($(this).attr("class") == "chickBox"){
+				$(this).attr("class", "chickBox fa fa-check")
+			}else{
+				$(this).attr("class", "chickBox")
+			}
+			if($(this).attr("fileId") == 'all'){
+				//全选
+				$(".chickBox").attr("class", $(this).attr("class"));
+			}
+
+			var $box = $(".chickBox");
+			for(var i = 0; i < $box.length; i++){
+				if($($box[i]).attr("class") == "chickBox fa fa-check"){
+					isSelected = true;
+				}
+			}
+
+			if (isSelected){
+				$(".workBtns").show();
+			}else{
+				$(".workBtns").hide();
+			}
+		});
 
 
-    $(".fileList tbody tr").hover(function(){
-        $(".fileWork").hide();
-        $("#wk_" + $(this).attr("itemId")).show();
-    }, function(){
-        $(".fileWork").hide();
-    });
+		$(".fileList tbody tr").hover(function(){
+			$(".fileWork").hide();
+			$("#wk_" + $(this).attr("itemId")).show();
+		}, function(){
+			$(".fileWork").hide();
+		});
+	}
+
     
     
     //新建文件夹
