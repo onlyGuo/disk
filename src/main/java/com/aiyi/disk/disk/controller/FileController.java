@@ -56,7 +56,6 @@ public class FileController {
     @ResponseBody
     public Map<String, Object> listFiles(@RequestBody FileItem fileItem, HttpServletRequest request){
         Map<String, Object> res = new HashMap<>();
-
         UserPO user = (UserPO) request.getSession().getAttribute("LOGIN_USER");
         // 创建OSSClient实例
         OSS ossClient = new OSSClientBuilder().build(user.getEndPoint(), user.getAccessKey(), user.getAccessKeySecret());
@@ -96,6 +95,9 @@ public class FileController {
 
         List<OSSObjectSummary> sums = objectListing.getObjectSummaries();
         for (OSSObjectSummary obj : sums) {
+            if (fileItem.getDir().substring(1).equals(obj.getKey())){
+                continue;
+            }
             FileItem build = FileItem.newBuilder()
                     .type(1)
                     .ossKey(obj.getKey())

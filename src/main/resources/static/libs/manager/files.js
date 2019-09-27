@@ -13,12 +13,14 @@ $(function(){
 		H.post(url, reqData, function (res) {
 			for(var i in res.list){
 				var item = res.list[i];
+				var href = "javascript:void(0);";
 
 				var fileName = item.name;
 				var indexOf = fileName.indexOf(".");
 				var fa = "fa-file-o";
 				if (item.type === 0){
 					fa = "fa-folder-o"
+					href = url + "/" + item.ossKey;
 				}else{
 					if (indexOf !== 0){
 						fileName = fileName.substring(indexOf);
@@ -60,7 +62,7 @@ $(function(){
 					"                    <div class=\"chickBox\" fileId=\"" + id + "\"></div>\n" +
 					"                    <span class=\"fielName\">\n" +
 					"                        <i class=\"fa " + fa + "\"></i>\n" +
-					"                        <a href=\"" + url + "/" + item.ossKey + "\">" + item.name + "</a>\n" +
+					"                        <a href=\"" + href + "\">" + item.name + "</a>\n" +
 					"                    </span>\n" +
 					"                    <span class=\"fileWork\" hidden id=\"wk_" + id + "\">\n" +
 					"                        <a href=\"javascript:void(0);\"><i class=\"fa fa-cloud-download\"></i></a>\n" +
