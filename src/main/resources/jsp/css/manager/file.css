@@ -1,0 +1,57 @@
+body{
+    background-color: dodgerblue;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    font-family: "Microsoft YaHei UI Light";
+    color: #343434;
+}
+.fileBox{
+    width: 800px;
+    height: 500px;
+    background-color: white;
+    margin: 100px auto 0 auto;
+    border-radius: 30px;
+    box-shadow: black 0 10px 50px -15px;
+}
+.fileBox h1{
+    margin-left: 30px;
+    padding: 10px 0 0 0;
+}
+.fileBox h1 i{
+    color: #4ba6ff;
+}
+.fileIconBox{
+    font-size: 180px;
+    text-align: center;
+}
+.fileIconBox i{
+    color: #4ba6ff;
+}
+.fileIconBox h2{
+    font-size: 30px;
+    margin-top: -10px;
+}
+
+.fileBox .fileBoxFoot{
+    width: 100%;
+    height: 60px;
+    margin: 91px 0 0 0;
+    text-align: center;
+    border-radius: 0 0 30px 30px;
+}
+.fileBoxFoot button{
+    width: 200px;
+    background-color: #4ba6ff;
+    padding: 0;
+    height: 60px;
+    border: none;
+    color: white;
+    border-radius: 30px 30px 0 0;
+    margin: 0 35px;
+    outline: none;
+}
+.fileBoxFoot button:hover{
+    background-color: dodgerblue;
+}

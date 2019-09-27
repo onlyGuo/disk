@@ -1,0 +1,139 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+.head{
+    height: 30px;
+    background-color: white;
+    padding: 20px;
+}
+button{
+    height: 30px;
+    min-width: 80px;
+    background-color: white;
+    color: dodgerblue;
+    border: dodgerblue solid 1px;
+    border-radius: 5px;
+    padding: 0 10px;
+    outline: none;
+}
+button:hover{
+    background-color: #4ba6ff;
+    color: white;
+}
+button:active{
+    background-color: #4bafff;
+}
+button.default{
+    background-color: dodgerblue;
+    color: white;
+}
+button.default:active{
+    background-color: #4bafff;
+}
+button.default:hover{
+    background-color: #4ba6ff;
+    color: white;
+}
+.search{
+    float: right;
+}
+.searchBox{
+    width: 300px;
+    height: 30px;
+    background-color: #f1f2f4;
+    padding-left: 16px;
+    border-radius: 16px;
+}
+.searchIco:hover{
+    color: #4ba6ff;
+}
+input{
+    height: 30px;
+    width: 250px;
+    background-color: #f1f2f4;
+    border:none 0;
+    outline: none;
+    font-family: "Microsoft YaHei UI Light";
+}
+hr{
+    border-style: solid none none none;
+    border-color: #4ba6ff;
+}
+.fileList{
+    padding: 10px 0;
+}
+.fileList table{
+    width: 100%;
+}
+.fileList thead{
+    color: gray;
+    font-family: "Microsoft YaHei UI Light";
+    font-size: 14px;
+}
+.fileList tbody{
+    font-family: "Microsoft YaHei UI Light";
+    font-size: 14px;
+}
+.fileList thead th{
+    border-bottom: solid #f2f6fd 1px;
+    text-align: left;
+    padding-left: 20px;
+    height: 50px;
+    line-height: 50px;
+}
+.fileList thead th:hover{
+    background-color: #f2f6fd;
+}
+.fileList tbody td{
+    border-bottom: solid #f2f6fd 1px;
+    padding-left: 20px;
+}
+.fileList tbody tr{
+    height: 40px;
+    line-height: 40px;
+}
+.fileList tbody tr:hover{
+    background-color: #e1edfe;
+}
+
+.chickBox{
+    height: 16px;
+    width: 16px;
+    /*background-color: #4ba6ff;*/
+    border: #4ba6ff solid 1px;
+    background-color: white;
+    vertical-align: middle;
+    display: inline-table;
+    line-height: 1;
+    padding: 1px 0 0 1px;
+    cursor: default;
+    color: #4ba6ff;
+}
+.fielName{
+    margin-left: 5px;
+}
+.fielName a{
+    outline: none;
+    text-decoration: none;
+    color: black;
+}
+.fielName i{
+    color: #4ba6ff;
+    font-size: 20px;
+}
+.fileWork{
+    float: right;
+    height: 40px;
+}
+.fileWork a{
+    margin: 0 10px;
+    color: #4ba6ff;
+    font-size: 20px;
+}
+.btnGroup{
+    border-radius: 0;
+}
+.workBtns{
+    display: inline-block;
+}

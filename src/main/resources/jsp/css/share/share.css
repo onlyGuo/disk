@@ -1,0 +1,224 @@
+*{
+    padding: 0;margin: 0;
+    font-family: "Microsoft YaHei UI Light";
+}
+html,body{
+    height: 100%;
+    width: 100%;
+    background-color: #edf1f5;
+}
+.head{
+    height: 60px;
+    width: 100%;
+    background-color: dodgerblue;
+}
+
+.head a{
+    margin: 0 20px;
+    color: white;
+    text-decoration: none;
+}
+.head a:active{
+    color: deepskyblue;
+}
+
+.logo{
+    display: inline-block;
+    width: 250px;
+    margin: 5px 0 0 10px;
+}
+.head .left{
+    display: inline-block;
+    position:relative;
+    top: -60px;
+    margin-left: calc(100% - 350px);;
+    height: 60px;
+    color: white;
+    cursor: default;
+}
+.head .left:hover .userTab{
+    display: block;
+}
+.head .userHeadImg{
+    height: 34px;
+    width: 34px;
+    margin: 10px 0;
+    border-radius: 20px;
+    vertical-align:middle;
+    border: #336bba solid 2px;
+}
+.head a{
+    display:inline-block;
+    background-color: #ffd821;
+    height: 27px;
+    line-height: 27px;
+    border-radius: 14px;
+    padding: 0 10px;
+    font-size: 14px;
+    color: #d18515;
+}
+
+
+.user_tab_box{
+    position: relative;
+    width: 150px;
+    top: -50px;
+    z-index: 1;
+    padding: 50px 0 0 0;
+}
+
+
+.head .left .userTab{
+    height: 279px;
+    width: 250px;
+    background-color: dodgerblue;
+    margin: 20px -250px 0 0;
+    z-index: 1;
+    display: none;
+    border-radius: 10px;
+    top: 100px;
+    box-shadow: gray 0 2px 8px -3px;
+}
+.head .userTab .sanJiao{
+    border-bottom: solid dodgerblue 10px;
+    border-left: solid #edf1f5 10px;
+    border-right: solid #edf1f5 10px;
+    /*margin: -50px 0 0 30px;*/
+    position:relative;
+    top: -10px;
+    left: 50px;
+    height: 0;
+    width: 0;
+    z-index: 1;
+    background-color: yellow;
+}
+
+.userTabHead{
+    margin: 5px 0 15px 20px;
+}
+.userTabHead .userHeadImg{
+    height: 50px;
+    width: 50px;
+    border-radius: 26px;
+    vertical-align:middle;
+    border: #336bba solid 2px;
+}
+.userTabBody{
+    background-color: white;
+    height: 200px;
+    width: 100%;
+    margin-top: -15px;
+    border-radius: 0 0 10px 10px;
+    color: black;
+}
+.userTabBody .goHome{
+    margin: 10px;
+    padding-top: 20px;
+}
+li{
+    list-style-type: none;
+}
+.userTabBody li a{
+    background-color: inherit;
+    color: black;
+    margin: 5px;
+}
+.userTabBody li{
+    cursor: pointer;
+}
+.userTabBody li:hover{
+    background-color: #d5d5d5;
+}
+
+.content{
+    width: 800px;
+    min-height: 450px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: gray 0 0 10px -5px;
+    margin: 30px auto auto auto;
+    /*padding: 20px 10px 10px 10px;*/
+}
+.content .left{
+    width: 500px;
+    display: inline-block;
+    margin: 20px 0 10px 10px;
+}
+.content .left .minImg{
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    vertical-align:middle;
+}
+.content .left h3{
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+}
+.content .left .time i{
+    color: dodgerblue;
+    margin-top: 10px;
+}
+.content .left .time a{
+    margin: auto 5px;
+    font-size: 14px;
+    color: dodgerblue;
+    outline: none;
+    text-decoration: none;
+}
+.content .right{
+    display: inline-block;
+    margin: 20px 0 10px 10px;
+}
+
+.content .right button{
+    background-color: white;
+    border: solid dodgerblue 1px;
+    border-radius: 5px;
+    min-width: 80px;
+    margin: auto 10px;
+    height: 30px;
+    color: dodgerblue;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.5s, color 0.5s;
+    -moz-transition: background-color 0.5s, color 0.5s;	/* Firefox 4 */
+    -webkit-transition: background-color 0.5s, color 0.5s;	/* Safari 鍜� Chrome */
+    -o-transition: background-color 0.5s, color 0.5s;	/* Opera */
+}
+.content .right button:hover{
+    background-color: dodgerblue;
+    color: white;
+    transition: background-color 0.5s, color 0.5s;
+    -moz-transition: background-color 0.5s, color 0.5s;	/* Firefox 4 */
+    -webkit-transition: background-color 0.5s, color 0.5s;	/* Safari 鍜� Chrome */
+    -o-transition: background-color 0.5s, color 0.5s;	/* Opera */
+}
+
+.content .contentBody{
+    width: 100%;
+}
+.content .maxImg{
+    width: 128px;
+    height: 128px;
+    display:block;
+    margin: 80px auto 10px auto;
+}
+
+.content p{
+    text-align: center;
+}
+
+hr{
+    border-top: dodgerblue solid 1px;
+}
+input{
+	background-color: white;
+    border: solid dodgerblue 1px;
+    border-radius: 5px;
+    min-width: 80px;
+    margin: auto 10px;
+    height: 30px;
+    color: dodgerblue;
+    outline: none;
+}

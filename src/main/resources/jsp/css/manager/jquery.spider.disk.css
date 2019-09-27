@@ -1,0 +1,42 @@
+@charset "utf-8";
+*{margin:0;padding:0;}
+.formbody{width:100%;margin:0 auto;}
+
+table.tb-disk-list {
+	line-height: 45px;
+	width: 100%;
+	font-size: 14px;
+}
+table.tb-disk-list h2 {
+	line-height: 25px;
+	width: 100%;
+	color:#4b77c2;
+	font-size: 12px;
+	font-weight: normal;
+	margin:0px 0px 10px 0px;
+	padding:0px;
+}
+table.tb-disk-list h2 strong {
+	margin-right:5px;
+	color:#4b77c2;
+	font-weight:bold;
+	font-size: 14px;
+}
+table.tb-disk-list th {
+	text-align: right;
+	font-weight: normal;
+	background-color:#f6f8fa;
+	color:#666;
+	padding:5px 5px 5px 15px;
+	border-bottom:1px dotted #DBDBDB;
+}
+table.tb-disk-list td label{
+	color:#666;
+}
+table.tb-disk-list td {
+	background-color:#FFF;
+	color:#2E545F;
+	padding:5px 5px 5px 15px;
+	border-bottom:1px dotted #DBDBDB;
+	line-height: 20px;
+	}

@@ -1,0 +1,13 @@
+server:
+  port: 8890
+spring:
+  freemarker:
+    cache: false
+  datasource:
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/disk?characterEncoding=utf-8
+mybatis:
+  type-aliases-package: com.aiyi.disk.entity
+  mapper-locations: classpath:mappers/*.xml
