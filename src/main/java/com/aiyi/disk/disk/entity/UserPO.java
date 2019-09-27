@@ -33,9 +33,23 @@ public class UserPO extends PO {
     @Validation(name = "用户手机号", value = ValidationType.Phone)
     private String phone;
 
+    @Validation(name = "创建时间")
     private Date createTime;
 
+    @Validation(name = "最后登录时间")
     private Date lastLoginTime;
+
+    @Validation(name = "阿里云Access Key", maxLength = 50)
+    private String accessKey;
+
+    @Validation(name = "阿里云Access Key Secret", maxLength = 100)
+    private String accessKeySecret;
+
+    @Validation(name = "阿里云OSS Bucket", maxLength = 100)
+    private String bucket;
+
+    @Validation(name = "阿里云OSS外网节点", maxLength = 255)
+    private String endPoint;
 
     public UserPO(){super();}
 
@@ -48,6 +62,10 @@ public class UserPO extends PO {
         setPhone(builder.phone);
         setCreateTime(builder.createTime);
         setLastLoginTime(builder.lastLoginTime);
+        setAccessKey(builder.accessKey);
+        setAccessKeySecret(builder.accessKeySecret);
+        setBucket(builder.bucket);
+        setEndPoint(builder.endPoint);
     }
 
     public static Builder newBuilder() {
@@ -57,6 +75,38 @@ public class UserPO extends PO {
 
     public long getId() {
         return id;
+    }
+
+    public String getAccessKey() {
+        return accessKey;
+    }
+
+    public void setAccessKey(String accessKey) {
+        this.accessKey = accessKey;
+    }
+
+    public String getAccessKeySecret() {
+        return accessKeySecret;
+    }
+
+    public void setAccessKeySecret(String accessKeySecret) {
+        this.accessKeySecret = accessKeySecret;
+    }
+
+    public String getBucket() {
+        return bucket;
+    }
+
+    public void setBucket(String bucket) {
+        this.bucket = bucket;
+    }
+
+    public String getEndPoint() {
+        return endPoint;
+    }
+
+    public void setEndPoint(String endPoint) {
+        this.endPoint = endPoint;
     }
 
     public void setId(long id) {
@@ -128,6 +178,10 @@ public class UserPO extends PO {
         private String phone;
         private Date createTime;
         private Date lastLoginTime;
+        private String accessKey;
+        private String accessKeySecret;
+        private String bucket;
+        private String endPoint;
 
         private Builder() {
         }
@@ -169,6 +223,26 @@ public class UserPO extends PO {
 
         public Builder lastLoginTime(Date val) {
             lastLoginTime = val;
+            return this;
+        }
+
+        public Builder accessKey(String val) {
+            accessKey = val;
+            return this;
+        }
+
+        public Builder accessKeySecret(String val) {
+            accessKeySecret = val;
+            return this;
+        }
+
+        public Builder bucket(String val) {
+            bucket = val;
+            return this;
+        }
+
+        public Builder endPoint(String val) {
+            endPoint = val;
             return this;
         }
 

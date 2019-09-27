@@ -180,8 +180,8 @@ public class ExceptionHandle {
     public ResultBean exception(Exception e, HttpServletResponse httpResponse) {
         httpResponse.setStatus(500);
         String msg = "服务器忙，请稍后再试";
-        if (null == msg){
-            msg = "服务器内部错误";
+        if (null != e.getMessage()){
+            msg = e.getMessage();
         }
         String format = MessageFormat
                 .format("requestId:[{0}], msg:[{1}]", ThreadUtil.getRequestId(), msg);

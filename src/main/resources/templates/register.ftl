@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- saved from url=(0044)http://demo.demohuo.top/modals/49/4919/demo/ -->
 <html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -43,26 +42,27 @@
 
                 <div class="wrap-input100 validate-input m-b-23 alert-validate" data-validate="请输入电子邮箱">
                     <span class="label-input100">电子邮箱</span>
-                    <input class="input100" type="email" name="email" placeholder="请输入电子邮箱">
-                    <span class="focus-input100" data-symbol=""></span>
+                    <input class="input100" type="email" name="email" placeholder="请输入电子邮箱" style="padding-left: 7px;">
                 </div>
 
                 <div class="wrap-input100 validate-input m-b-23 alert-validate" data-validate="请输入OSS AccessKey">
                     <span class="label-input100">AccessKey ID</span>
-                    <input class="input100" type="text" name="accessKey" placeholder="请输入OSS AccessKey">
-                    <span class="focus-input100" data-symbol=""></span>
+                    <input class="input100" type="text" name="accessKey" placeholder="请输入OSS AccessKey" style="padding-left: 7px;">
                 </div>
 
                 <div class="wrap-input100 validate-input m-b-23 alert-validate" data-validate="请输入AccessKeySecret">
                     <span class="label-input100">AccessKey Secret</span>
-                    <input class="input100" type="text" name="accessKeySecret" placeholder="请输入AccessKeySecret">
-                    <span class="focus-input100" data-symbol=""></span>
+                    <input class="input100" type="text" name="accessKeySecret" placeholder="请输入AccessKeySecret" style="padding-left: 7px;">
+                </div>
+
+                <div class="wrap-input100 validate-input m-b-23 alert-validate" data-validate="请输入OSS外网节点">
+                    <span class="label-input100">endPoint</span>
+                    <input class="input100" type="text" name="endPoint" placeholder="请输入OSS外网节点" style="padding-left: 7px;">
                 </div>
 
                 <div class="wrap-input100 validate-input alert-validate" data-validate="请输入Bucket">
                     <span class="label-input100">Bucket</span>
-                    <input class="input100" type="text" name="bucket" placeholder="请输入Bucket">
-                    <span class="focus-input100" data-symbol=""></span>
+                    <input class="input100" type="text" name="bucket" placeholder="请输入Bucket" style="padding-left: 7px;">
                 </div>
 
                 <div class="text-right p-t-8 p-b-31">
@@ -83,10 +83,9 @@
     </div>
 </div>
 
-<script src="${ctx}/libs/jquery-3.2.1.min.js"></script>
-<script src="${ctx}/libs/main.js"></script>
+<script src="${ctx}/libs/jquery.min.js"></script>
 <script src="${ctx}/libs/layer-v3.1.1/layer/layer.js"></script>
-<script src="${ctx}/libs/layer-v3.1.1/layer/mobile/layer.js"></script>
+<script src="${ctx}/libs/main.js"></script>
 <script src="${ctx}/libs/ajax/core.js"></script>
 <script src="${ctx}/libs/layerAjaxMsg/default.js"></script>
 
@@ -102,6 +101,7 @@
             accessKey: $("input[name='accessKey']").val(),
             accessKeySecret: $("input[name='accessKeySecret']").val(),
             bucket: $("input[name='bucket']").val(),
+            endPoint: $("input[name='endPoint']").val()
         };
         if (data.password !== data.pass){
             layer.alert("两次密码输入不一致");
@@ -110,8 +110,7 @@
 
 
         H.post("${ctx}/register", data, function (res){
-            console.log(res);
-            // location.href = "login";
+            location.href = "login";
         })
     }
 
