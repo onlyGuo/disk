@@ -137,3 +137,14 @@ hr{
 .workBtns{
     display: inline-block;
 }
+.fileList .more {
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+    background-color: #eeeeee;
+    cursor: pointer;
+    color: #383838;
+}
+.fileList .more:hover{
+    background-color: #DDD;
+}

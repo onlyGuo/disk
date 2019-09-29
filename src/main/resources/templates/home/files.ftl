@@ -39,12 +39,13 @@
         <tbody>
 
         </tbody>
-
     </table>
+    <div class="more">more</div>
 </div>
 <div hidden="hidden">
     <input id="list_dir" value="${pathName}" />
     <input id="list_api_dir" value="${ctx}/files/list">
+    <input id="list_make" value="">
 </div>
 </body>
 <script type="text/javascript" src="${ctx}/libs/jquery.min.js" ></script>

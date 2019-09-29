@@ -64,7 +64,7 @@ public class FileController {
         OSS ossClient = new OSSClientBuilder().build(user.getEndPoint(), user.getAccessKey(), user.getAccessKeySecret());
 
         // 设置最大个数。
-        final int maxKeys = 10;
+        final int maxKeys = 1000;
         // 列举文件。
         ObjectListing objectListing = ossClient.listObjects(new ListObjectsRequest(user.getBucket())
                 .withPrefix(fileItem.getDir().substring(1))

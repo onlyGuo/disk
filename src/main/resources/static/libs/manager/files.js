@@ -13,6 +13,12 @@ $(function(){
 			for(var i in res.list){
 				appendFile(res.list[i])
 			}
+			if (res.make){
+				$("#list_make").val(res.make);
+				$(".fileList .more").text("加载更多");
+			}else{
+				$(".fileList .more").text("没有更多了");
+			}
 			init();
 		});
 	}
@@ -86,6 +92,12 @@ $(function(){
 			content : [ $("#thisPage").val() + '/upload', 'yes' ], // iframe的url，no代表不显示滚动条
 		});
     });
+
+	$(".fileList .more").click(function () {
+		if ($(this).text() === "加载更多"){
+			listFiles();
+		}
+	});
     
 });
 
