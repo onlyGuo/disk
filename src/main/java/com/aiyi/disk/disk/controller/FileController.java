@@ -149,6 +149,23 @@ public class FileController {
         return ResultBean.success("船舰成功");
     }
 
+    @GetMapping("list/**/upload")
+    public String uploadPage(HttpServletRequest request){
+        UserPO user = (UserPO) request.getSession().getAttribute("LOGIN_USER");
+        String requestURI = request.getRequestURI();
+        String path = requestURI.substring(requestURI.indexOf("files/list") + 10);
+        try {
+            path = URLDecoder.decode(path, "UTF-8").substring(1);
+            path = path.substring(0, path.lastIndexOf("upload"));
+            request.setAttribute("pathName", path);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        request.setAttribute("uploadUrl",
+                "http://" + user.getBucket() + "." + user.getEndPoint().replace("http://", ""));
+        return "home/upload";
+    }
+
 
     @PostMapping("delete")
     @ResponseBody

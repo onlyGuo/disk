@@ -89,7 +89,7 @@ $(function(){
 			area : [ '500px', '400px' ],
 			offset : 'rb', // 右下角弹出
 			anim : 2,
-			content : [ $("#thisPage").val() + '/upload', 'yes' ], // iframe的url，no代表不显示滚动条
+			content : ['upload', 'yes' ], // iframe的url，no代表不显示滚动条
 		});
     });
 

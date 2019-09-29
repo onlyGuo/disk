@@ -28,6 +28,10 @@
 </div>
 <hr/>
 <div class="fileList">
+    <#if pathName != '/'>
+        <a href="../" style="margin-left: 20px; text-decoration:none; color: gray;"><i class="fa fa-reply"></i> 上一级</a>
+    </#if>
+
     <table cellpadding="0" cellspacing="0">
         <thead>
         <tr>
@@ -45,6 +49,7 @@
 <div hidden="hidden">
     <input id="list_dir" value="${pathName}" />
     <input id="list_api_dir" value="${ctx}/files/list">
+    <input id="ctx" value="${ctx}">
     <input id="list_make" value="">
 </div>
 </body>
