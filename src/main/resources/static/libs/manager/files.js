@@ -160,17 +160,26 @@ function deleteFolder(trId, fileId){
  * @returns
  */
 function shareFile(fileId){
-	parent.layer.load();
-	$.get($("#rootPage").val() + '/manager/share/' + fileId, function(response){
-		parent.layer.closeAll('loading');
-		parent.layer.alert(response,{
-			area:['520px', '350px'],
-			title:"创建分享链接"
-		});
-	}).error(function(){
-		parent.layer.closeAll('loading');
-		layer.msg("分享遇到错误");
+
+	parent.layer.open({
+		type : 2,
+		title : "创建分享连接",
+		area : [ '500px', '260px' ],
+		anim : 2,
+		content : [url + "/../share/" + fileId, 'yes' ], // iframe的url，no代表不显示滚动条
 	});
+
+	// parent.layer.load();
+	// $.get($("#rootPage").val() + '/manager/share/' + fileId, function(response){
+	// 	parent.layer.closeAll('loading');
+	// 	parent.layer.alert(response,{
+	// 		area:['520px', '350px'],
+	// 		title:"创建分享链接"
+	// 	});
+	// }).error(function(){
+	// 	parent.layer.closeAll('loading');
+	// 	layer.msg("分享遇到错误");
+	// });
 }
 
 /**
@@ -288,7 +297,7 @@ function appendFile(item) {
 		"                    <span class=\"fileWork\" hidden id=\"wk_" + id + "\">\n" +
 		"                        <a href=\"javascript:download('" + item.ossKey + "');\"><i class=\"fa fa-cloud-download\"></i></a>\n" +
 		"                        <a href=\"javascript:deleteFolder('" + id + "', '" + item.ossKey + "');\"><i class=\"fa fa-trash-o\"></i></a>\n" +
-		"                        <a href=\"javascript:void(0);\"><i class=\"fa fa-share-alt-square\"></i></a>\n" +
+		"                        <a href=\"javascript:shareFile('" + item.ossKey + "');\"><i class=\"fa fa-share-alt-square\"></i></a>\n" +
 		"                    </span>\n" +
 		"                </td>\n" +
 		"                <td>" + item.size + "</td>\n" +

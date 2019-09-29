@@ -240,6 +240,15 @@ public class FileController {
         return ResultBean.success("批量删除成功");
     }
 
+    @GetMapping("share/**")
+    public String sharePage(HttpServletRequest request){
+        UserPO user = (UserPO) request.getSession().getAttribute("LOGIN_USER");
+        String requestURI = request.getRequestURI();
+        String path = requestURI.substring(requestURI.indexOf("files/share") + 12);
+        request.setAttribute("fileKey", path);
+        return "home/share";
+    }
+
 
     /**
      * 获取文本格式的文件大小
