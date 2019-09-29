@@ -2,6 +2,8 @@ package com.aiyi.disk.disk.service;
 
 import com.aiyi.disk.disk.entity.ShareInfoPO;
 
+import java.util.List;
+
 /**
  * @author gsk
  * @description: 分享相关业务
@@ -32,5 +34,13 @@ public interface ShareInfoService {
      *      文件OSSKey
      */
     void deleteByFileKey(String fileKey, String bucket);
+
+    /**
+     * 列出某个用户的全部分享
+     * @param uid
+     *      用户ID
+     * @return
+     */
+    List<ShareInfoPO> list(Long uid);
 
 }

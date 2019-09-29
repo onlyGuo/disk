@@ -28,7 +28,7 @@
     <div class="nav">
         <ul>
             <li class="active" addr="files/list/"><i class="fa fa-folder"></i> 全部文件</li>
-            <li addr="myshare"><i class="fa fa-share"></i> 我的分享</li>
+            <li addr="files/myshare"><i class="fa fa-share"></i> 我的分享</li>
         </ul>
     </div>
 

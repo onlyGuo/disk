@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ValidationException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.Charset;
 import java.util.Date;
 
 /**
@@ -38,7 +41,13 @@ public class ShareController {
     public ResultBean share(@RequestBody ShareInfoPO shareInfoPO, HttpServletRequest request){
         UserPO user = (UserPO) request.getSession().getAttribute("LOGIN_USER");
         shareInfoPO.check("fileKey");
-        String fileKey = shareInfoPO.getFileKey();
+        String fileKey = null;
+        try {
+            fileKey = URLDecoder.decode(shareInfoPO.getFileKey(), "UTF-8");
+            shareInfoPO.setFileKey(fileKey);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
         if (fileKey.endsWith("/")){
             throw new ValidationException("暂不支持文件夹分享");

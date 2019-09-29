@@ -28,8 +28,6 @@
         </div>
     </div>
     <div class="right">
-<#--        <button><i class="fa fa-download"></i> 下载</button>-->
-<#--        <button><i class="fa fa-hand-stop-o"></i> 举报</button>-->
     </div>
 
     <hr/>

@@ -248,12 +248,30 @@ public class FileController {
         return ResultBean.success("批量删除成功");
     }
 
+    /**
+     * 创建分享连接页面
+     * @param request
+     * @return
+     */
     @GetMapping("share/**")
     public String sharePage(HttpServletRequest request){
         String requestURI = request.getRequestURI();
         String path = requestURI.substring(requestURI.indexOf("files/share") + 12);
         request.setAttribute("fileKey", path);
         return "home/share";
+    }
+
+    /**
+     * 我的分享页面
+     * @param request
+     * @return
+     */
+    @GetMapping("myshare")
+    public String myShare(HttpServletRequest request){
+        UserPO user = (UserPO) request.getSession().getAttribute("LOGIN_USER");
+        request.setAttribute("pathName", "/");
+        request.setAttribute("files", shareInfoService.list(user.getId()));
+        return "home/myshare";
     }
 
 

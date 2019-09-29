@@ -8,14 +8,9 @@
 </head>
 <body>
 <div class="head">
-    <button id="uploadFile" class="default"><i class="fa fa-upload"></i> 上传</button>
-    <button id="createFolder"><i class="fa fa-folder-open-o"></i> 新建文件夹</button>
-
     <div class="workBtns">
-        <button class="btnGroup share">删除</button>
+        <button class="btnGroup share">取消分享</button>
     </div>
-
-
 
     <div class="search">
         <div class="searchBox">
@@ -26,23 +21,39 @@
 </div>
 <hr/>
 <div class="fileList">
-    <#if pathName != '/'>
-        <a href="../" style="margin-left: 20px; text-decoration:none; color: gray;"><i class="fa fa-reply"></i> 上一级</a>
-    </#if>
-
     <table cellpadding="0" cellspacing="0">
         <thead>
         <tr>
-            <th width="70%"><div class="chickBox" fileId="all"></div><span class="fielName">文件名</span></th>
-            <th>大小</th>
+            <th width="50%"><div class="chickBox" fileId="all"></div><span class="fielName">文件名</span></th>
+            <th>分享密码</th>
+            <th>下载限速</th>
+            <th>下载付费</th>
             <th>修改日期</th>
         </tr>
         </thead>
         <tbody>
+        <#list files as fi>
+            <tr itemId="{id}">
+                <td>
+                    <div class="chickBox" fileId="${fi.id}"></div>
+                    <span class="fielName">
+                    <i class="fa fa-folder-o"></i>
+                    <a href="javascript:void(0);">${fi.name}</a>
+	            </span>
+                    <span class="fileWork" hidden id="wk_${fi.id }">
+                    <a href="javascript:deleteShare('${fi.id }');" title="取消分享"><i class="fa fa-chain-broken"></i></a>
+                    <a href="javascript:lookShare('${fi.id }');" title="查看分享地址"><i class="fa fa-eye"></i></a>
+                </span>
+                </td>
+                <td> ${fi.password}</td>
+                <td> ${fi.speed ! '无限制'} kb/s</td>
+                <td> ${fi.amount ! '免费'} ￥</td>
+                <td>${fi.createTime}</td>
 
+            </tr>
+        </#list>
         </tbody>
     </table>
-    <div class="more">more</div>
 </div>
 <div hidden="hidden">
     <input id="list_dir" value="${pathName}" />
@@ -55,5 +66,14 @@
 <script type="text/javascript" src="${ctx}/libs/layer-v3.1.1/layer/layer.js" ></script>
 <script type="text/javascript" src="${ctx}/libs/ajax/core.js" ></script>
 <script type="text/javascript" src="${ctx}/libs/layerAjaxMsg/default.js" ></script>
-<script type="text/javascript" src="${ctx}/libs/manager/files.js" ></script>
+<script type="text/javascript" src="${ctx}/libs/manager/myshare.js" ></script>
+<script>
+
+    function lookShare(fileId){
+        var link = window.location.protocol+"//"+window.location.host;
+        link += "${ctx}/share/" + fileId;
+        parent.layer.alert("连接地址: " + link);
+    }
+
+</script>
 </html>

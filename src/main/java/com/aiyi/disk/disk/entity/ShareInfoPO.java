@@ -59,6 +59,9 @@ public class ShareInfoPO extends PO {
     @TempField
     private String size;
 
+    @TempField
+    private String icon;
+
     public ShareInfoPO(){super();}
 
     private ShareInfoPO(Builder builder) {
@@ -79,10 +82,19 @@ public class ShareInfoPO extends PO {
         setUsername(builder.username);
         setAvatar(builder.avatar);
         setSize(builder.size);
+        setIcon(builder.icon);
     }
 
     public static Builder newBuilder() {
         return new Builder();
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     public String getSize() {
@@ -239,6 +251,7 @@ public class ShareInfoPO extends PO {
         private String username;
         private String avatar;
         private String size;
+        private String icon;
 
         private Builder() {
         }
@@ -325,6 +338,11 @@ public class ShareInfoPO extends PO {
 
         public Builder size(String val) {
             size = val;
+            return this;
+        }
+
+        public Builder icon(String val) {
+            icon = val;
             return this;
         }
 
