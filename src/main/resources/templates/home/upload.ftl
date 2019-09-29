@@ -23,7 +23,6 @@
 		<input id="rootPath" value="${ctx}">
 		<input id="list_dir" value="${pathName}" />
 		<input id="uploadUrl" value="${uploadUrl}" />
-
 	</div>
 </body>
 <script type="text/javascript" src="${ctx}/libs/jquery.min.js" ></script>

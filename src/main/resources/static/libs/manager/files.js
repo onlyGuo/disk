@@ -78,6 +78,22 @@ $(function(){
     		});
     	});
     });
+
+	$(".btnGroup").click(function () {
+		var $selects = $("tr .chickBox.fa.fa-check");
+		var selectKeys = [];
+		for (var i = 0; i < $selects.length; i++){
+			selectKeys.push($($selects[i]).attr("fileId"));
+		}
+		parent.layer.msg('正在删除请稍候...', {icon: 16,time: 0,shade : [0.5 , '#000' , true]});
+		H.post(url + "/../deletes", selectKeys, function(){
+			for (var i = 0; i < $selects.length; i++){
+				$($selects[i]).parent().parent().remove();
+			}
+			$(".workBtns").hide();
+			parent.layer.msg("批量删除成功");
+		});
+	});
     
     //上传文件
     $("#uploadFile").click(function(){

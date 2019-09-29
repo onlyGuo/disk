@@ -146,7 +146,7 @@ public class FileController {
         InputStream stream = new ByteArrayInputStream(new byte[0]);
         client.putObject(user.getBucket(), path, stream);
         client.shutdown();
-        return ResultBean.success("船舰成功");
+        return ResultBean.success("文件夹创建成功");
     }
 
     @GetMapping("list/**/upload")
@@ -170,6 +170,9 @@ public class FileController {
     @PostMapping("delete")
     @ResponseBody
     public ResultBean delete(@RequestBody FileItem fileItem, HttpServletRequest request){
+        if (fileItem.getName().startsWith(".系统文件请勿删除")){
+            return ResultBean.success("文件删除成功");
+        }
         UserPO user = (UserPO) request.getSession().getAttribute("LOGIN_USER");
         OSS client = new OSSClientBuilder().build(user.getEndPoint(), user.getAccessKey(), user.getAccessKeySecret());
 
@@ -191,6 +194,23 @@ public class FileController {
 
         client.deleteObject(user.getBucket(), fileItem.getName());
         return ResultBean.success("文件删除成功");
+    }
+
+    /**
+     * 批量删除文件或文件夹
+     * @param ossKeyLists
+     *      要删除的OSS对象列表
+     * @param request
+     * @return
+     */
+    @PostMapping("deletes")
+    @ResponseBody
+    public ResultBean deleteList(@RequestBody List<String> ossKeyLists, HttpServletRequest request){
+        for (String key: ossKeyLists){
+            FileItem build = FileItem.newBuilder().name(key).build();
+            delete(build, request);
+        }
+        return ResultBean.success("批量删除成功");
     }
 
 

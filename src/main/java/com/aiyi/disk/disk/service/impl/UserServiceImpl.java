@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("头像文件上传失败");
         }
         URL url = build.generatePresignedUrl(user.getBucket(), ".系统文件请勿删除/avatar.png", new Date(System.currentTimeMillis() +
-                1000 * 60 * 60 * 24 * 360 * 10));
+                1000L * 60L * 60L * 24L * 360L * 100L));
         user.setAvatar(url.toString());
         userDao.update(user);
         user.setPassword(null);

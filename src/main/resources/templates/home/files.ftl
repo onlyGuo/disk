@@ -12,9 +12,9 @@
     <button id="createFolder"><i class="fa fa-folder-open-o"></i> 新建文件夹</button>
 
     <div class="workBtns">
-        <button class="btnGroup start">下载</button>
+<#--        <button class="btnGroup start">下载</button>-->
         <button class="btnGroup">删除</button>
-        <button class="btnGroup end">分享</button>
+<#--        <button class="btnGroup end">分享</button>-->
     </div>
 
 
