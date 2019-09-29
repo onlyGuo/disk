@@ -56,6 +56,9 @@ public class ShareInfoPO extends PO {
     @TempField
     private String avatar;
 
+    @TempField
+    private String size;
+
     public ShareInfoPO(){super();}
 
     private ShareInfoPO(Builder builder) {
@@ -75,10 +78,19 @@ public class ShareInfoPO extends PO {
         setNickerName(builder.nickerName);
         setUsername(builder.username);
         setAvatar(builder.avatar);
+        setSize(builder.size);
     }
 
     public static Builder newBuilder() {
         return new Builder();
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 
     public String getBucketName() {
@@ -226,6 +238,7 @@ public class ShareInfoPO extends PO {
         private String nickerName;
         private String username;
         private String avatar;
+        private String size;
 
         private Builder() {
         }
@@ -307,6 +320,11 @@ public class ShareInfoPO extends PO {
 
         public Builder avatar(String val) {
             avatar = val;
+            return this;
+        }
+
+        public Builder size(String val) {
+            size = val;
             return this;
         }
 

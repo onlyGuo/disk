@@ -18,4 +18,12 @@ public interface ShareInfoService {
      */
     ShareInfoPO create(ShareInfoPO shareInfoPO);
 
+    /**
+     * 通过ID 获取分享详情
+     * @param id
+     *      ID
+     * @return
+     */
+    ShareInfoPO getById(String id);
+
 }

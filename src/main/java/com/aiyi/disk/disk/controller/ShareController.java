@@ -1,6 +1,7 @@
 package com.aiyi.disk.disk.controller;
 
 import com.aiyi.core.beans.ResultBean;
+import com.aiyi.disk.disk.conf.NoAuth;
 import com.aiyi.disk.disk.entity.ShareInfoPO;
 import com.aiyi.disk.disk.entity.UserPO;
 import com.aiyi.disk.disk.service.ShareInfoService;
@@ -25,6 +26,13 @@ public class ShareController {
     @Resource
     private ShareInfoService shareInfoService;
 
+    /**
+     * 创建分享连接
+     * @param shareInfoPO
+     *      分享详情
+     * @param request
+     * @return
+     */
     @PostMapping
     @ResponseBody
     public ResultBean share(@RequestBody ShareInfoPO shareInfoPO, HttpServletRequest request){
@@ -50,6 +58,14 @@ public class ShareController {
         shareInfoPO.setUid(user.getId());
         ShareInfoPO res = shareInfoService.create(shareInfoPO);
         return ResultBean.success("分享链接创建成功").putResponseBody("link", res.getId());
+    }
+
+    @GetMapping("{shareId}")
+    @NoAuth
+    public String share(@PathVariable String shareId, HttpServletRequest request){
+        ShareInfoPO infoPO = shareInfoService.getById(shareId);
+        request.setAttribute("share", infoPO);
+        return "share";
     }
 
 }

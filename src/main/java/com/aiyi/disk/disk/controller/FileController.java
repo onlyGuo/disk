@@ -256,7 +256,7 @@ public class FileController {
      *      文件大小
      * @return
      */
-    private String getFileSize2Str(double size){
+    public static String getFileSize2Str(double size){
         String[] dws = {"b", "k", "M", "G"};
         String dw = null;
         for (int i = 0; i < dws.length; i ++){
