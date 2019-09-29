@@ -3,6 +3,7 @@ package com.aiyi.disk.disk.entity;
 import com.aiyi.core.annotation.po.ID;
 import com.aiyi.core.annotation.po.TableName;
 import com.aiyi.core.annotation.po.TempField;
+import com.aiyi.core.annotation.po.vali.Validation;
 import com.aiyi.core.beans.PO;
 
 import java.math.BigDecimal;
@@ -20,8 +21,10 @@ public class ShareInfoPO extends PO {
     @ID
     private String id;
 
+    @Validation(name = "分享名称")
     private String name;
 
+    @Validation(name = "文件路径")
     private String fileKey;
 
     private String password;
@@ -35,6 +38,14 @@ public class ShareInfoPO extends PO {
     private Date createTime;
 
     private long downloadCount;
+
+    private String bucketName;
+
+    private String endPoint;
+
+    private String accessKey;
+
+    private String accessKeySecret;
 
     @TempField
     private String nickerName;
@@ -57,6 +68,10 @@ public class ShareInfoPO extends PO {
         setUid(builder.uid);
         setCreateTime(builder.createTime);
         setDownloadCount(builder.downloadCount);
+        setBucketName(builder.bucketName);
+        setEndPoint(builder.endPoint);
+        setAccessKey(builder.accessKey);
+        setAccessKeySecret(builder.accessKeySecret);
         setNickerName(builder.nickerName);
         setUsername(builder.username);
         setAvatar(builder.avatar);
@@ -64,6 +79,38 @@ public class ShareInfoPO extends PO {
 
     public static Builder newBuilder() {
         return new Builder();
+    }
+
+    public String getBucketName() {
+        return bucketName;
+    }
+
+    public void setBucketName(String bucketName) {
+        this.bucketName = bucketName;
+    }
+
+    public String getEndPoint() {
+        return endPoint;
+    }
+
+    public void setEndPoint(String endPoint) {
+        this.endPoint = endPoint;
+    }
+
+    public String getAccessKey() {
+        return accessKey;
+    }
+
+    public void setAccessKey(String accessKey) {
+        this.accessKey = accessKey;
+    }
+
+    public String getAccessKeySecret() {
+        return accessKeySecret;
+    }
+
+    public void setAccessKeySecret(String accessKeySecret) {
+        this.accessKeySecret = accessKeySecret;
     }
 
     public String getId() {
@@ -172,6 +219,10 @@ public class ShareInfoPO extends PO {
         private Long uid;
         private Date createTime;
         private long downloadCount;
+        private String bucketName;
+        private String endPoint;
+        private String accessKey;
+        private String accessKeySecret;
         private String nickerName;
         private String username;
         private String avatar;
@@ -221,6 +272,26 @@ public class ShareInfoPO extends PO {
 
         public Builder downloadCount(long val) {
             downloadCount = val;
+            return this;
+        }
+
+        public Builder bucketName(String val) {
+            bucketName = val;
+            return this;
+        }
+
+        public Builder endPoint(String val) {
+            endPoint = val;
+            return this;
+        }
+
+        public Builder accessKey(String val) {
+            accessKey = val;
+            return this;
+        }
+
+        public Builder accessKeySecret(String val) {
+            accessKeySecret = val;
             return this;
         }
 

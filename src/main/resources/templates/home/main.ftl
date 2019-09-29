@@ -43,4 +43,6 @@
 <script type="text/javascript" src="${ctx}/libs/jquery.min.js" ></script>
 <script type="text/javascript" src="${ctx}/libs/layer-v3.1.1/layer/layer.js" ></script>
 <script type="text/javascript" src="${ctx}/libs/manager/main.js" ></script>
+<script type="text/javascript" src="${ctx}/libs/ajax/core.js" ></script>
+<script type="text/javascript" src="${ctx}/libs/layerAjaxMsg/default.js" ></script>
 </html>

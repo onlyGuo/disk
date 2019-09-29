@@ -242,7 +242,6 @@ public class FileController {
 
     @GetMapping("share/**")
     public String sharePage(HttpServletRequest request){
-        UserPO user = (UserPO) request.getSession().getAttribute("LOGIN_USER");
         String requestURI = request.getRequestURI();
         String path = requestURI.substring(requestURI.indexOf("files/share") + 12);
         request.setAttribute("fileKey", path);

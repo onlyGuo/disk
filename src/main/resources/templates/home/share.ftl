@@ -48,7 +48,31 @@
                 amount: $("input[name='amount']").val()
             };
             parent.H.post("${ctx}/share", data, function (res) {
-                alert("分享成功");
+                parent.layer.close(index);
+                var link = window.location.protocol+"//"+window.location.host;
+                link += "${ctx}/share/" + res.responseBody.link;
+
+                if ($("input[name='password']").val()){
+                    link += "<br/> 密码: " + data.password;
+                }else{
+                    link += "<br/> 密码: 无";
+                }
+
+                if ($("input[name='speed']").val()){
+                    link += "<br/> 限速: " + data.speed + "kb/s";
+                }else{
+                    link += "<br/> 限速: 无限制";
+                }
+
+                if ($("input[name='amount']").val()){
+                    link += "<br/> 费用: " + data.amount + "kb/s";
+                }else{
+                    link += "<br/> 费用: 免费下载";
+                }
+
+                parent.layer.alert("分享连接创建成功， 请手动复制下列信息进行保存.<hr/><br/>连接: " + link, function () {
+                    parent.layer.closeAll();
+                });
             });
         });
     });
