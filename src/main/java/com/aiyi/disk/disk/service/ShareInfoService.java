@@ -26,4 +26,11 @@ public interface ShareInfoService {
      */
     ShareInfoPO getById(String id);
 
+    /**
+     * 删除包含指定OSSKey的分享
+     * @param fileKey
+     *      文件OSSKey
+     */
+    void deleteByFileKey(String fileKey, String bucket);
+
 }

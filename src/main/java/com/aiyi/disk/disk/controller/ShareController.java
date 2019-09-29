@@ -64,6 +64,9 @@ public class ShareController {
     @NoAuth
     public String share(@PathVariable String shareId, HttpServletRequest request){
         ShareInfoPO infoPO = shareInfoService.getById(shareId);
+        if (null == infoPO){
+            return "noShare";
+        }
         request.setAttribute("share", infoPO);
         return "share";
     }

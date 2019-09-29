@@ -4,6 +4,7 @@ import com.aiyi.core.beans.ResultBean;
 import com.aiyi.core.util.thread.ThreadUtil;
 import com.aiyi.disk.disk.entity.FileItem;
 import com.aiyi.disk.disk.entity.UserPO;
+import com.aiyi.disk.disk.service.ShareInfoService;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.ListObjectsRequest;
@@ -12,6 +13,7 @@ import com.aliyun.oss.model.ObjectListing;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
@@ -35,6 +37,9 @@ import java.util.*;
 public class FileController {
 
     private static final DecimalFormat DF = new DecimalFormat("#.00");
+
+    @Resource
+    private ShareInfoService shareInfoService;
 
     @GetMapping("list/**")
     public String fileList(HttpServletRequest request){
@@ -194,6 +199,8 @@ public class FileController {
         } while (objectListing.isTruncated());
 
         client.deleteObject(user.getBucket(), fileItem.getName());
+
+        shareInfoService.deleteByFileKey(fileItem.getName(), user.getBucket());
         return ResultBean.success("文件删除成功");
     }
 

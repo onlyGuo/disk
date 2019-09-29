@@ -1,5 +1,7 @@
 package com.aiyi.disk.disk.service.impl;
 
+import com.aiyi.core.beans.Method;
+import com.aiyi.core.sql.where.C;
 import com.aiyi.disk.disk.controller.FileController;
 import com.aiyi.disk.disk.dao.ShareInfoDao;
 import com.aiyi.disk.disk.dao.UserDao;
@@ -38,6 +40,9 @@ public class ShareInfoServiceImpl implements ShareInfoService {
     @Override
     public ShareInfoPO getById(String id) {
         ShareInfoPO shareInfoPO = shareInfoDao.get(id);
+        if (null == shareInfoPO){
+            return null;
+        }
         UserPO userPO = userDao.get(shareInfoPO.getUid());
 
         shareInfoPO.setUsername(userPO.getUsername());
@@ -64,5 +69,11 @@ public class ShareInfoServiceImpl implements ShareInfoService {
         }
 
         return shareInfoPO;
+    }
+
+    @Override
+    public void deleteByFileKey(String fileKey, String bucket) {
+        String sql = "DELETE FROM %s WHERE fileKey LIKE ? AND bucketName = ?";
+        shareInfoDao.execute(String.format(sql, shareInfoDao.tableName()), fileKey + "%", bucket);
     }
 }

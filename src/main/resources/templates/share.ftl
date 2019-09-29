@@ -43,7 +43,7 @@
 
 <div class="content">
     <div class="left">
-        <img src="${ctx}/images//file.png" class="minImg">
+        <img src="${ctx}/images/file.png" class="minImg">
         <h3>${share.name}</h3>
         <div class="time">
             <i class="fa fa-calendar-minus-o"></i> ${share.createTime}
