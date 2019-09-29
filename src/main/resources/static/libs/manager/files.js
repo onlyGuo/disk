@@ -114,7 +114,7 @@ $(function(){
 			listFiles();
 		}
 	});
-    
+
 });
 
 /**
@@ -123,7 +123,7 @@ $(function(){
  * @returns
  */
 function download(fileId){
-	window.open($("#rootPage").val() + '/manager/download/' + fileId); 
+	window.open($("#ctx").val() + '/files/download/' + fileId);
 }
 
 /**
@@ -286,7 +286,7 @@ function appendFile(item) {
 		"                        <a href=\"" + href + "\">" + item.name + "</a>\n" +
 		"                    </span>\n" +
 		"                    <span class=\"fileWork\" hidden id=\"wk_" + id + "\">\n" +
-		"                        <a href=\"javascript:void(0);\"><i class=\"fa fa-cloud-download\"></i></a>\n" +
+		"                        <a href=\"javascript:download('" + item.ossKey + "');\"><i class=\"fa fa-cloud-download\"></i></a>\n" +
 		"                        <a href=\"javascript:deleteFolder('" + id + "', '" + item.ossKey + "');\"><i class=\"fa fa-trash-o\"></i></a>\n" +
 		"                        <a href=\"javascript:void(0);\"><i class=\"fa fa-share-alt-square\"></i></a>\n" +
 		"                    </span>\n" +

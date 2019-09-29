@@ -13,16 +13,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author gsk
@@ -194,6 +194,33 @@ public class FileController {
 
         client.deleteObject(user.getBucket(), fileItem.getName());
         return ResultBean.success("文件删除成功");
+    }
+
+    /**
+     * 后台直接下载文件
+     * @param request
+     * @param response
+     */
+    @GetMapping("download/**")
+    public void download(HttpServletRequest request, HttpServletResponse response){
+        UserPO user = (UserPO) request.getSession().getAttribute("LOGIN_USER");
+        String requestURI = request.getRequestURI();
+        String path = requestURI.substring(requestURI.indexOf("files/download") + 15);
+
+        OSS client = new OSSClientBuilder().build(user.getEndPoint(), user.getAccessKey(), user.getAccessKeySecret());
+        URL url = null;
+        try {
+            url = client.generatePresignedUrl(
+                    user.getBucket(), URLDecoder.decode(path, "UTF-8"), new Date(System.currentTimeMillis() + 1000 * 60 * 60));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        try {
+            response.sendRedirect(url.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        client.shutdown();
     }
 
     /**
