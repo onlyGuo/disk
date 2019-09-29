@@ -108,6 +108,7 @@ public class FileController {
                     .make(objectListing.getNextMarker())
                     .keywork(fileItem.getKeywork())
                     .dir(fileItem.getDir())
+                    .updateTime(obj.getLastModified())
                     .size(getFileSize2Str(obj.getSize())).build();
             result.add(build);
         }

@@ -1,5 +1,7 @@
 package com.aiyi.disk.disk.entity;
 
+import java.util.Date;
+
 /**
  * @author gsk
  * @description: 文件实体
@@ -20,6 +22,8 @@ public class FileItem {
 
     private String keywork;
 
+    private Date updateTime;
+
     /**
      * 0 = 目录， 1 = 文件
      */
@@ -34,11 +38,20 @@ public class FileItem {
         setMake(builder.make);
         setDir(builder.dir);
         setKeywork(builder.keywork);
+        setUpdateTime(builder.updateTime);
         setType(builder.type);
     }
 
     public static Builder newBuilder() {
         return new Builder();
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     public int getType() {
@@ -104,6 +117,7 @@ public class FileItem {
         private String make;
         private String dir;
         private String keywork;
+        private Date updateTime;
         private int type;
 
         private Builder() {
@@ -136,6 +150,11 @@ public class FileItem {
 
         public Builder keywork(String val) {
             keywork = val;
+            return this;
+        }
+
+        public Builder updateTime(Date val) {
+            updateTime = val;
             return this;
         }
 

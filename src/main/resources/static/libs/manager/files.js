@@ -287,6 +287,11 @@ function appendFile(item) {
 			}
 		}
 	}
+	var updateTime = "-";
+	if (item.updateTime){
+		updateTime = item.updateTime;
+	}
+
 	$("tbody").append("<tr id=\"" + id + "\">\n" +
 		"                <td>\n" +
 		"                    <div class=\"chickBox\" fileId=\"" + item.ossKey + "\"></div>\n" +
@@ -301,7 +306,7 @@ function appendFile(item) {
 		"                    </span>\n" +
 		"                </td>\n" +
 		"                <td>" + item.size + "</td>\n" +
-		"                <td> - </td>\n" +
+		"                <td>" + updateTime + "</td>\n" +
 		"            </tr>");
 }
 
