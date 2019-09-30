@@ -45,7 +45,7 @@
                     <a href="javascript:lookShare('${fi.id }', this);" title="查看分享地址"><i class="fa fa-eye"></i></a>
                 </span>
                 </td>
-                <td> ${fi.password}</td>
+                <td> ${fi.password! ''}</td>
                 <td> ${fi.speed ! '无限制'} kb/s</td>
                 <td> ${fi.amount ! '免费'} ￥</td>
                 <td>${fi.createTime}</td>

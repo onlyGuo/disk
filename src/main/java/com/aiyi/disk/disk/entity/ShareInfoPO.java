@@ -186,6 +186,9 @@ public class ShareInfoPO extends PO {
     }
 
     public String getPassword() {
+        if (password.equals("")){
+            return null;
+        }
         return password;
     }
 
