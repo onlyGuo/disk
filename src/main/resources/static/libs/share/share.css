@@ -171,7 +171,7 @@ li{
     margin: 20px 0 10px 10px;
 }
 
-.content .right button{
+button{
     background-color: white;
     border: solid dodgerblue 1px;
     border-radius: 5px;
@@ -186,7 +186,7 @@ li{
     -webkit-transition: background-color 0.5s, color 0.5s;	/* Safari 鍜� Chrome */
     -o-transition: background-color 0.5s, color 0.5s;	/* Opera */
 }
-.content .right button:hover{
+button:hover{
     background-color: dodgerblue;
     color: white;
     transition: background-color 0.5s, color 0.5s;

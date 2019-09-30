@@ -48,6 +48,9 @@ public class ShareInfoPO extends PO {
     private String accessKeySecret;
 
     @TempField
+    private String speedDisPlay;
+
+    @TempField
     private String nickerName;
 
     @TempField
@@ -78,6 +81,7 @@ public class ShareInfoPO extends PO {
         setEndPoint(builder.endPoint);
         setAccessKey(builder.accessKey);
         setAccessKeySecret(builder.accessKeySecret);
+        setSpeedDisPlay(builder.speedDisPlay);
         setNickerName(builder.nickerName);
         setUsername(builder.username);
         setAvatar(builder.avatar);
@@ -91,6 +95,26 @@ public class ShareInfoPO extends PO {
 
     public String getIcon() {
         return icon;
+    }
+
+    public String getSpeedDisPlay() {
+        if (null == speedDisPlay || "".equals(speedDisPlay)){
+            if (null == speed || speed.intValue() == 0){
+                speedDisPlay = "无限制";
+            }else{
+                if (speed.intValue() > 1024){
+                    speedDisPlay = speed.divide(new BigDecimal(1024), 2, BigDecimal.ROUND_CEILING).toString();
+                    speedDisPlay += " M/s";
+                }else{
+                    speedDisPlay = speed + " kb/s";
+                }
+            }
+        }
+        return speedDisPlay;
+    }
+
+    public void setSpeedDisPlay(String speedDisPlay) {
+        this.speedDisPlay = speedDisPlay;
     }
 
     public void setIcon(String icon) {
@@ -247,6 +271,7 @@ public class ShareInfoPO extends PO {
         private String endPoint;
         private String accessKey;
         private String accessKeySecret;
+        private String speedDisPlay;
         private String nickerName;
         private String username;
         private String avatar;
@@ -318,6 +343,11 @@ public class ShareInfoPO extends PO {
 
         public Builder accessKeySecret(String val) {
             accessKeySecret = val;
+            return this;
+        }
+
+        public Builder speedDisPlay(String val) {
+            speedDisPlay = val;
             return this;
         }
 

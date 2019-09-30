@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import javax.validation.ValidationException;
 import java.util.List;
 
 /**
@@ -35,6 +36,11 @@ public class ShareInfoServiceImpl implements ShareInfoService {
 
     @Override
     public ShareInfoPO create(ShareInfoPO shareInfoPO) {
+        if (shareInfoPO.getSpeed() != null){
+            if(shareInfoPO.getSpeed().intValue() < 100 || shareInfoPO.getSpeed().intValue() > 102400){
+                throw new ValidationException("下载限速只允许设置100Kb/s~102400Kb/s之间");
+            }
+        }
         shareInfoDao.add(shareInfoPO);
         return shareInfoPO;
     }
@@ -117,5 +123,10 @@ public class ShareInfoServiceImpl implements ShareInfoService {
             infoPO.setIcon(fa);
         }
         return shareInfoPOList;
+    }
+
+    @Override
+    public void deleteById(String fileId, Long uid) {
+        shareInfoDao.del(Method.where("id", C.EQ, fileId).and("uid", C.EQ, uid));
     }
 }

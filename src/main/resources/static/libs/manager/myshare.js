@@ -66,16 +66,12 @@ $(function(){
  * @param fileId
  * @returns
  */
-function deleteShare(fileId){
+function deleteShare(fileId, t){
 	parent.layer.load();
-	$.get($("#rootPage").val() + '/manager/deleteShare/' + fileId, function(response){
+	H.post($("#ctx").val() + '/share/deleteShare/' + fileId, function(response){
 		parent.layer.closeAll('loading');
-		if(response.result){
-			parent.layer.msg("已取消分享");
-			location = location;
-		}else{
-			parent.layer.msg(response.message);
-		}
+		parent.layer.msg("已取消分享");
+		location.href = location.href;
 	}).error(function(){
 		parent.layer.closeAll('loading');
 		layer.msg("分享遇到错误");
@@ -115,4 +111,15 @@ function deletePassword(fileId){
 		parent.layer.closeAll('loading');
 		layer.msg("分享遇到错误");
 	});
+}
+
+/**
+ * 查看分享连接
+ * @param fileId
+ * 		分享文件Id
+ */
+function lookShare(fileId){
+	var link = window.location.protocol+"//"+window.location.host;
+	link += $("#ctx").val() + "/share/" + fileId;
+	parent.layer.alert("连接地址: " + link);
 }

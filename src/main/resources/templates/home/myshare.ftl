@@ -42,7 +42,7 @@
 	            </span>
                     <span class="fileWork" hidden id="wk_${fi.id }">
                     <a href="javascript:deleteShare('${fi.id }');" title="取消分享"><i class="fa fa-chain-broken"></i></a>
-                    <a href="javascript:lookShare('${fi.id }');" title="查看分享地址"><i class="fa fa-eye"></i></a>
+                    <a href="javascript:lookShare('${fi.id }', this);" title="查看分享地址"><i class="fa fa-eye"></i></a>
                 </span>
                 </td>
                 <td> ${fi.password}</td>
@@ -67,13 +67,4 @@
 <script type="text/javascript" src="${ctx}/libs/ajax/core.js" ></script>
 <script type="text/javascript" src="${ctx}/libs/layerAjaxMsg/default.js" ></script>
 <script type="text/javascript" src="${ctx}/libs/manager/myshare.js" ></script>
-<script>
-
-    function lookShare(fileId){
-        var link = window.location.protocol+"//"+window.location.host;
-        link += "${ctx}/share/" + fileId;
-        parent.layer.alert("连接地址: " + link);
-    }
-
-</script>
 </html>

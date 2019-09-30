@@ -43,4 +43,11 @@ public interface ShareInfoService {
      */
     List<ShareInfoPO> list(Long uid);
 
+    /**
+     * 通过分享文件ID来删除分享
+     * @param fileId
+     *      文件ID
+     */
+    void deleteById(String fileId, Long uid);
+
 }

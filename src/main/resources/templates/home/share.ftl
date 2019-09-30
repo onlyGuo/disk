@@ -65,7 +65,7 @@
                 }
 
                 if ($("input[name='amount']").val()){
-                    link += "<br/> 费用: " + data.amount + "kb/s";
+                    link += "<br/> 费用: " + data.amount + "￥";
                 }else{
                     link += "<br/> 费用: 免费下载";
                 }
