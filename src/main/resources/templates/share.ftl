@@ -18,8 +18,8 @@
         <i class="fa fa-sort-desc"></i>
         <a href="http://www.321aiyi.com/">进入爱易编程网</a>
         <div class="user_tab_box">
+            <div class="sanJiao"></div>
             <div class="userTab">
-                <div class="sanJiao"></div>
                 <div class="userTabHead">
                     <img src="${share.avatar}" class="userHeadImg">
                     ${share.nickerName}
@@ -73,7 +73,31 @@
         </div>
     </div>
     <div class="right">
-        <button onclick="download('${share.id}')"><i class="fa fa-download"></i> 下载</button>
+        <button onclick="download('${share.id}', this)"><i class="fa fa-download"></i> 下载</button>
+        <div class="pay-tab-box">
+            <div class="sanJiao"></div>
+            <div class="show-content" style="padding: 10px; text-align: center;">
+                <p style="color: gray; font-size: 10px;">
+                    资源分享人设置了付费下载,您需要支付0.01元下载该资源.
+                    (目前仅支持支付宝)
+                </p><br/>
+                <p style="color: gray; font-size: 10px;">
+                    本站是本人业余时间开发的开源的公益文件存储平台, 不能保证站内用户分享文件的安全性和权威性.
+                    请<span style="color: red;">慎重考虑后</span>再支付. 退款功能尚未开发,若需退款请直接和分享人协商.
+                </p><br/>
+                <p style="color: gray; font-size: 10px;">
+                    付款后, 请<span style="color: red;">勿关闭本页面</span>, 直接重新点击下载按钮即可下载. 请务必在
+                    <span style="color: red;">30分钟内</span>进行下载(下载过程中超过30分钟无碍), 否则需重新支付.
+                </p><br/>
+                <p style="color: gray; font-size: 10px;">
+                    若您确定已支付后下载的文件与分享人承诺的内容不实且拒绝协商时, 请在
+                    <span style="color: red;">支付后的两个工作日下午4点之前</span>联系719348277@qq.com. 超时后这笔款项将无法追回.
+                </p>
+
+                <a href="javascript:void (0);"> 我已认真看完, 继续付款 </a>
+
+            </div>
+        </div>
         <button><i class="fa fa-hand-stop-o"></i> 举报</button>
     </div>
 
@@ -89,6 +113,7 @@
 <script src="${ctx}/libs/layer-v3.1.1/layer/layer.js"></script>
 <script src="${ctx}/libs/ajax/core.js"></script>
 <script src="${ctx}/libs/layerAjaxMsg/default.js"></script>
+<script type="text/javascript" src="//static.runoob.com/assets/qrcode/qrcode.min.js"></script>
 <script src="${ctx}/libs/share/share.js"></script>
 <script></script>
 </body>

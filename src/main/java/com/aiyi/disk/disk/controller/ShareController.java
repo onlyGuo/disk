@@ -2,8 +2,10 @@ package com.aiyi.disk.disk.controller;
 
 import com.aiyi.core.beans.ResultBean;
 import com.aiyi.disk.disk.conf.NoAuth;
+import com.aiyi.disk.disk.entity.OrderPO;
 import com.aiyi.disk.disk.entity.ShareInfoPO;
 import com.aiyi.disk.disk.entity.UserPO;
+import com.aiyi.disk.disk.service.OrderService;
 import com.aiyi.disk.disk.service.ShareInfoService;
 import com.aliyun.oss.HttpMethod;
 import com.aliyun.oss.OSS;
@@ -32,6 +34,9 @@ public class ShareController {
 
     @Resource
     private ShareInfoService shareInfoService;
+
+    @Resource
+    private OrderService orderService;
 
     /**
      * 创建分享连接
@@ -126,6 +131,8 @@ public class ShareController {
     @NoAuth
     public ResultBean download(@PathVariable String fileId, HttpServletRequest request){
         ShareInfoPO info = shareInfoService.getById(fileId);
+
+        // 密码校验
         if (!StringUtils.isEmpty(info.getPassword())){
             String pswd = (String)request.getSession().getAttribute("PSWD:" + fileId);
             if (StringUtils.isEmpty(pswd)){
@@ -133,6 +140,15 @@ public class ShareController {
             }
             if (!info.getPassword().equals(pswd)){
                 throw new ValidationException("访问密码不正确");
+            }
+        }
+
+        // 支付校验
+        if (null != info.getAmount() && info.getAmount().doubleValue() > 0){
+            String payd = (String)request.getSession().getAttribute("PAYD:" + fileId);
+            if (null == payd || !payd.equals("Y")){
+                OrderPO order = orderService.createOrder(info);
+                return ResultBean.error("需要付款").setResponseBody(order);
             }
         }
 

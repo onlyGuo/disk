@@ -39,6 +39,9 @@ html,body{
 .head .left:hover .userTab{
     display: block;
 }
+.head .left:hover .sanJiao{
+    display: block;
+}
 .head .userHeadImg{
     height: 34px;
     width: 34px;
@@ -62,9 +65,39 @@ html,body{
 .user_tab_box{
     position: relative;
     width: 150px;
-    top: -50px;
+    top: -68px;
     z-index: 1;
     padding: 50px 0 0 0;
+}
+
+.pay-tab-box{
+    background-color: dodgerblue;
+    position: absolute;
+    margin-top: 15px;
+    margin-left: -18px;
+    border-radius: 10px;
+    box-shadow: grey 2px 2px 14px -3px;
+    display: none;
+}
+
+.pay-tab-box .show-content{
+    width: 240px;
+    height: 330px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    background-color: white;
+    border-radius: 0 0 10px 10px;
+}
+
+.pay-tab-box .sanJiao{
+    border-bottom: solid dodgerblue 10px;
+    border-left: solid rgba(0,0,0,.0) 10px;
+    border-right: solid rgba(0,0,0,.0)10px;
+    position: relative;
+    top: -10px;
+    left: 50px;
+    height: 0;
+    width: 0;
 }
 
 
@@ -79,18 +112,16 @@ html,body{
     top: 100px;
     box-shadow: gray 0 2px 8px -3px;
 }
-.head .userTab .sanJiao{
+.head .user_tab_box .sanJiao{
     border-bottom: solid dodgerblue 10px;
-    border-left: solid #edf1f5 10px;
-    border-right: solid #edf1f5 10px;
-    /*margin: -50px 0 0 30px;*/
+    border-left: solid rgba(0,0,0,.0) 10px;
+    border-right: solid rgba(0,0,0,.0) 10px;
     position:relative;
-    top: -10px;
+    top: 20px;
     left: 50px;
     height: 0;
     width: 0;
-    z-index: 1;
-    background-color: yellow;
+    display: none;
 }
 
 .userTabHead{

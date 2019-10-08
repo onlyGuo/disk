@@ -26,7 +26,7 @@ public class AlipayService {
     @Value("${alipay.appid}")
     private String appId;
 
-    @Value("${alipay.app-public-key}")
+    @Value("${alipay.alipay-public-pay}")
     private String appPublicKey;
 
     private String appPrivateKey;

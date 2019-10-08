@@ -1,5 +1,8 @@
 package com.aiyi.disk.disk.entity;
 
+import com.aiyi.core.annotation.po.ID;
+import com.aiyi.core.annotation.po.TableName;
+import com.aiyi.core.annotation.po.TempField;
 import com.aiyi.core.beans.PO;
 
 import java.math.BigDecimal;
@@ -11,10 +14,17 @@ import java.util.Date;
  * @date 2019/09/30
  * @email 719348277@qq.com
  */
+@TableName(name = "`order`")
 public class OrderPO extends PO {
 
 
+    @ID
     private Long id;
+
+    /**
+     * 订单所属用户ID
+     */
+    private Long uid;
 
     /**
      * 订单编号
@@ -71,10 +81,17 @@ public class OrderPO extends PO {
      */
     private String subject;
 
+    /**
+     * 二维码内容
+     */
+    @TempField
+    private String rqCodeContent;
+
     public OrderPO(){super();}
 
     private OrderPO(Builder builder) {
         setId(builder.id);
+        setUid(builder.uid);
         setOrderNo(builder.orderNo);
         setAmount(builder.amount);
         setCreateTime(builder.createTime);
@@ -86,10 +103,27 @@ public class OrderPO extends PO {
         setAccessKey(builder.accessKey);
         setAccessKeySecret(builder.accessKeySecret);
         setSubject(builder.subject);
+        setRqCodeContent(builder.rqCodeContent);
     }
 
     public static Builder newBuilder() {
         return new Builder();
+    }
+
+    public String getRqCodeContent() {
+        return rqCodeContent;
+    }
+
+    public void setRqCodeContent(String rqCodeContent) {
+        this.rqCodeContent = rqCodeContent;
+    }
+
+    public Long getUid() {
+        return uid;
+    }
+
+    public void setUid(Long uid) {
+        this.uid = uid;
     }
 
     public Long getId() {
@@ -190,6 +224,7 @@ public class OrderPO extends PO {
 
     public static final class Builder {
         private Long id;
+        private Long uid;
         private String orderNo;
         private BigDecimal amount;
         private Date createTime;
@@ -201,12 +236,18 @@ public class OrderPO extends PO {
         private String accessKey;
         private String accessKeySecret;
         private String subject;
+        private String rqCodeContent;
 
         private Builder() {
         }
 
         public Builder id(Long val) {
             id = val;
+            return this;
+        }
+
+        public Builder uid(Long val) {
+            uid = val;
             return this;
         }
 
@@ -262,6 +303,11 @@ public class OrderPO extends PO {
 
         public Builder subject(String val) {
             subject = val;
+            return this;
+        }
+
+        public Builder rqCodeContent(String val) {
+            rqCodeContent = val;
             return this;
         }
 

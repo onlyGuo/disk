@@ -38,7 +38,6 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.SERIALIZABLE)
     public UserPO createUser(UserPO user) {
-        user = userDao.get(Method.where("username", C.EQ, user.getUsername()));
         if (userDao.isExist(Method.where("username", C.EQ, user.getUsername()))){
             throw new ValidationException("用户名[" + user.getUsername() + "]已存在，请更换其他用户名");
         }
@@ -50,7 +49,7 @@ public class UserServiceImpl implements UserService {
         user.setNickerName(user.getUsername());
         user.setCreateTime(new Date());
         userDao.add(user);
-//
+
         OSS build = new OSSClientBuilder().build(user.getEndPoint(), user.getAccessKey(), user.getAccessKeySecret());
 
         try {
