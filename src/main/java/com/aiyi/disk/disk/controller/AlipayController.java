@@ -27,7 +27,7 @@ public class AlipayController {
      *      响应信息
      */
     @NoAuth
-    @RequestMapping("collback ")
+    @RequestMapping("collback")
     public void collback(HttpServletRequest request, HttpServletResponse response){
         Map<String, String[]> parameterMap = request.getParameterMap();
         System.out.println(JSON.toJSONString(parameterMap));
