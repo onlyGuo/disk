@@ -32,6 +32,11 @@ public class OrderPO extends PO {
     private String orderNo;
 
     /**
+     * 订单状态
+     */
+    private String status;
+
+    /**
      * 订单金额
      */
     private BigDecimal amount;
@@ -93,6 +98,7 @@ public class OrderPO extends PO {
         setId(builder.id);
         setUid(builder.uid);
         setOrderNo(builder.orderNo);
+        setStatus(builder.status);
         setAmount(builder.amount);
         setCreateTime(builder.createTime);
         setPayTime(builder.payTime);
@@ -116,6 +122,14 @@ public class OrderPO extends PO {
 
     public void setRqCodeContent(String rqCodeContent) {
         this.rqCodeContent = rqCodeContent;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Long getUid() {
@@ -226,6 +240,7 @@ public class OrderPO extends PO {
         private Long id;
         private Long uid;
         private String orderNo;
+        private String status;
         private BigDecimal amount;
         private Date createTime;
         private Date payTime;
@@ -253,6 +268,11 @@ public class OrderPO extends PO {
 
         public Builder orderNo(String val) {
             orderNo = val;
+            return this;
+        }
+
+        public Builder status(String val) {
+            status = val;
             return this;
         }
 

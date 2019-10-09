@@ -1,16 +1,27 @@
 package com.aiyi.disk.disk.service;
 
+import com.aiyi.disk.disk.entity.OrderPO;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradePrecreateRequest;
+import com.alipay.api.request.AlipayTradeQueryRequest;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
+import com.alipay.api.response.AlipayTradeQueryResponse;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Component;
+import sun.nio.ch.ThreadPool;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.io.*;
 import java.math.BigDecimal;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.*;
 
 /**
  * @author gsk
@@ -36,6 +47,9 @@ public class AlipayService {
 
     @Value("${alipay.service}")
     private String service;
+
+    @Resource
+    private OrderService orderService;
 
 
     /**
@@ -63,6 +77,80 @@ public class AlipayService {
         client = new DefaultAlipayClient(service, appId, appPrivateKey, "json", "UTF-8",
                 appPublicKey, "RSA2");
 
+        // 初始化支付结果轮询线程池
+        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
+                .setNameFormat("order-status-pool-%d").build();
+        ExecutorService singleThreadPool = new ThreadPoolExecutor(1, 1,
+                0L, TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<>(1), namedThreadFactory, new ThreadPoolExecutor.AbortPolicy());
+
+        singleThreadPool.execute(()-> {
+            while (true){
+                List<OrderPO> orderPOS = orderService.listWaitOrder();
+                if (orderPOS.isEmpty()){
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    continue;
+                }
+                LinkedList<OrderPO> list = new LinkedList<>(orderPOS);
+
+                // 初始化支付结果轮询线程池
+                ThreadFactory queueFactory = new ThreadFactoryBuilder()
+                        .setNameFormat("order-queue-pool-%d").build();
+                ExecutorService queueThreadPool = new ThreadPoolExecutor(10, 10,
+                        0L, TimeUnit.MILLISECONDS,
+                        new LinkedBlockingQueue<>(1024), queueFactory, new ThreadPoolExecutor.AbortPolicy());
+
+                queueThreadPool.execute(() -> {
+                    while (!list.isEmpty()){
+                        OrderPO order = null;
+                        try {
+                            synchronized (list){
+                                order = list.removeFirst();
+                            }
+                        }catch (Exception e){
+                            break;
+                        }
+                        if (null == order){
+                            break;
+                        }
+                        AlipayTradeQueryResponse orderStatus = null;
+                        try {
+                            orderStatus = getOrderStatus(order.getOrderNo());
+                            if ("40004".equals(orderStatus.getCode())){
+                                continue;
+                            }
+                            if ("10000".equals(orderStatus.getCode())){
+                                order.setStatus(orderStatus.getTradeStatus());
+                                order.setPayAccount(orderStatus.getBuyerLogonId());
+                                order.setPayTime(new Date());
+                                order.setPayType(0);
+                            }
+                        }catch (Exception e){
+                            order.setStatus("TRADE_FAIL");
+                        }
+                        orderService.update(order);
+                    }
+                });
+                queueThreadPool.shutdown();
+                try {
+                    queueThreadPool.awaitTermination(1, TimeUnit.MINUTES);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        singleThreadPool.shutdown();
+
+
     }
 
     /**
@@ -81,7 +169,8 @@ public class AlipayService {
                 "    \"out_trade_no\":\"%s\"," +
                 "    \"total_amount\":\"%s\"," +
                 "    \"subject\":\"%s\"," +
-                "    \"timeout_express\":\"90m\"}", orderNo, amount, subject));
+                "    \"notify_url\":\"%s\"," +
+                "    \"timeout_express\":\"90m\"}", orderNo, amount, subject, "http://5q2k4n.natappfree.cc/alipay/collback"));
         AlipayTradePrecreateResponse response = null;
         try {
             response = client.execute(request);
@@ -91,5 +180,25 @@ public class AlipayService {
         return response;
     }
 
+    public AlipayTradeQueryResponse getOrderStatus(String orderNo){
+        AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
+        request.setBizContent("{" +
+                "    \"out_trade_no\":\"" + orderNo + "\"}");
+        AlipayTradeQueryResponse response = null;
+        try {
+            response = client.execute(request);
+        } catch (AlipayApiException e) {
+            throw new RuntimeException("订单查询失败:" + e.getMessage(), e);
+        }
+        return response;
+    }
+
+    public String publicKey(){
+        return appPublicKey;
+    }
+
+    public String privateKey(){
+        return appPrivateKey;
+    }
 
 }

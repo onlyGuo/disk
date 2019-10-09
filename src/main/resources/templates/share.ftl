@@ -109,6 +109,9 @@
         <p>限速：${share.speedDisPlay}</p>
     </div>
 </div>
+<div style="display: none">
+    <input id="ctx" value="${ctx}" />
+</div>
 <script src="${ctx}/libs/jquery.min.js"></script>
 <script src="${ctx}/libs/layer-v3.1.1/layer/layer.js"></script>
 <script src="${ctx}/libs/ajax/core.js"></script>

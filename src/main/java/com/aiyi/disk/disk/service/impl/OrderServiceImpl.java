@@ -1,5 +1,8 @@
 package com.aiyi.disk.disk.service.impl;
 
+import com.aiyi.core.beans.Method;
+import com.aiyi.core.beans.Script;
+import com.aiyi.core.sql.where.C;
 import com.aiyi.disk.disk.dao.OrderDao;
 import com.aiyi.disk.disk.entity.OrderPO;
 import com.aiyi.disk.disk.entity.ShareInfoPO;
@@ -12,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.validation.ValidationException;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -58,5 +62,22 @@ public class OrderServiceImpl implements OrderService {
         build.setAccessKeySecret(null);
         build.setAccessKey(null);
         return build;
+    }
+
+    @Override
+    public List<OrderPO> listWaitOrder() {
+        List<OrderPO> list = orderDao.list(orderDao.selectSql() + " WHERE (`status` IS NULL OR `status` = ?) AND createTime > ?",
+                "WAIT_BUYER_PAY", new Date(System.currentTimeMillis() - 1000 * 60 * 30));
+        return list;
+    }
+
+    @Override
+    public void update(OrderPO orderPO) {
+        orderDao.update(orderPO);
+    }
+
+    @Override
+    public OrderPO getByOrderNo(String orderNo) {
+        return orderDao.get(Method.where("orderNo", C.EQ, orderNo));
     }
 }
