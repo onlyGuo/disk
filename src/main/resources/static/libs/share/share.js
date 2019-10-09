@@ -63,7 +63,7 @@ function queryOederStatus(orderNo){
 			// 下载
 			H.post(spuFileId+ "/download", {}, function (r) {
 				if (r.success){
-					$("#qucode_status_" + orderNo).html("已生成临时下载连接, 请在30分钟内重新点击下载按钮完成下载");
+					$("#qucode_status_" + orderNo).html("已生成临时下载连接, 不要关闭本页面, 请在30分钟内重新点击下载按钮完成下载");
 				}
 			});
 			// 十秒后自动刷新
