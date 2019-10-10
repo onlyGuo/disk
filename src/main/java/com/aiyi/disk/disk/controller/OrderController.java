@@ -51,6 +51,8 @@ public class OrderController {
                 && shareInfoPO.getEndPoint().equals(order.getEndpoint())){
             request.getSession().setAttribute("PAYD:" + fileId, "Y");
         }
+        order.setAccessKey(null);
+        order.setAccessKeySecret(null);
         return ResultBean.success("订单信息获取成功").setResponseBody(order);
     }
 

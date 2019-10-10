@@ -78,7 +78,7 @@
             <div class="sanJiao"></div>
             <div class="show-content" style="padding: 10px; text-align: center;">
                 <p style="color: gray; font-size: 10px;">
-                    资源分享人设置了付费下载,您需要支付0.01元下载该资源.
+                    资源分享人设置了付费下载,您需要支付<span id="payAmount"></span>元下载该资源.
                     (目前仅支持支付宝)
                 </p><br/>
                 <p style="color: gray; font-size: 10px;">

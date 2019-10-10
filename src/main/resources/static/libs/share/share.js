@@ -15,6 +15,7 @@ function download(fileId, t){
 		}else{
 			$(".pay-tab-box").css("display", "block");
 			spuFileId = fileId;
+			$("#payAmount").html(res.responseBody.amount);
 			$(".pay-tab-box a").attr("href", "javascript:openPayQrCode('" + res.responseBody.rqCodeContent + "', '" + res.responseBody.orderNo + "');");
 		}
 		$t.css("disable", null);
