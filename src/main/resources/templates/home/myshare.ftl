@@ -25,6 +25,7 @@
         <thead>
         <tr>
             <th width="50%"><div class="chickBox" fileId="all"></div><span class="fielName">文件名</span></th>
+            <th>下载数量</th>
             <th>分享密码</th>
             <th>下载限速</th>
             <th>下载付费</th>
@@ -37,14 +38,15 @@
                 <td>
                     <div class="chickBox" fileId="${fi.id}"></div>
                     <span class="fielName">
-                    <i class="fa fa-folder-o"></i>
-                    <a href="javascript:void(0);">${fi.name}</a>
-	            </span>
+                        <i class="fa fa-folder-o"></i>
+                        <a href="javascript:void(0);">${fi.name}</a>
+	                </span>
                     <span class="fileWork" hidden id="wk_${fi.id }">
-                    <a href="javascript:deleteShare('${fi.id }');" title="取消分享"><i class="fa fa-chain-broken"></i></a>
-                    <a href="javascript:lookShare('${fi.id }', this);" title="查看分享地址"><i class="fa fa-eye"></i></a>
-                </span>
+                        <a href="javascript:deleteShare('${fi.id }');" title="取消分享"><i class="fa fa-chain-broken"></i></a>
+                        <a href="javascript:lookShare('${fi.id }', this);" title="查看分享地址"><i class="fa fa-eye"></i></a>
+                    </span>
                 </td>
+                <td>${fi.downloadCount! '0'}</td>
                 <td> ${fi.password! ''}</td>
                 <td> ${fi.speed ! '无限制'} kb/s</td>
                 <td> ${fi.amount ! '免费'} ￥</td>
