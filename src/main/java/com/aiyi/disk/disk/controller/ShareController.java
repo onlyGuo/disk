@@ -1,6 +1,7 @@
 package com.aiyi.disk.disk.controller;
 
 import com.aiyi.core.beans.ResultBean;
+import com.aiyi.core.util.MD5;
 import com.aiyi.disk.disk.conf.NoAuth;
 import com.aiyi.disk.disk.entity.OrderPO;
 import com.aiyi.disk.disk.entity.ShareInfoPO;
@@ -166,6 +167,11 @@ public class ShareController {
         }
         String signedUrl = client.generatePresignedUrl(req).toString();
         client.shutdown();
+
+        // 记录下载次数
+        info.setDownloadCount(info.getDownloadCount() + 1);
+        shareInfoService.update(info);
+
         return ResultBean.success("下载连接生成成功").putResponseBody("link", signedUrl);
     }
 

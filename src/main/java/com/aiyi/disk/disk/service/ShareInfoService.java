@@ -50,4 +50,10 @@ public interface ShareInfoService {
      */
     void deleteById(String fileId, Long uid);
 
+    /**
+     * 更新分享详情
+     * @param info
+     */
+    void update(ShareInfoPO info);
+
 }

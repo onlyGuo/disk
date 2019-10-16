@@ -10,13 +10,15 @@ import com.aiyi.disk.disk.entity.UserPO;
 import com.aiyi.disk.disk.service.ShareInfoService;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
-import com.aliyun.oss.model.OSSObject;
-import com.aliyun.oss.model.SimplifiedObjectMeta;
+import com.aliyun.oss.model.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import javax.validation.ValidationException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.List;
 
 /**
@@ -60,22 +62,40 @@ public class ShareInfoServiceImpl implements ShareInfoService {
         OSS client = new OSSClientBuilder().build(shareInfoPO.getEndPoint(), shareInfoPO.getAccessKey(),
                 shareInfoPO.getAccessKeySecret());
 
-        SimplifiedObjectMeta meta = null;
-        try {
-            meta = client.getSimplifiedObjectMeta(shareInfoPO.getBucketName(), shareInfoPO.getFileKey());
-        }catch (Exception e){
-            return null;
-        }
-        if (null == meta){
-            return null;
-        }
-        long size = meta.getSize();
-        shareInfoPO.setSize(FileController.getFileSize2Str(size));
+        if (shareInfoPO.getFileKey().contains("+")){
+            String substring = shareInfoPO.getFileKey().substring(0, shareInfoPO.getFileKey().indexOf("+"));
+            // 指定每页200个文件。
+            final int maxKeys = 200;
+            String nextMarker = null;
+            ObjectListing objectListing;
 
-        if (meta.getLastModified().getTime() > shareInfoPO.getCreateTime().getTime()){
-            shareInfoPO.setCreateTime(meta.getLastModified());
-        }
+            do {
+                objectListing = client.listObjects(new ListObjectsRequest(shareInfoPO.getBucketName()).
+                        withPrefix(substring).withMarker(nextMarker).withMaxKeys(maxKeys));
 
+                List<OSSObjectSummary> sums = objectListing.getObjectSummaries();
+                for (OSSObjectSummary summary : sums) {
+                    if (summary.getKey().equals(shareInfoPO.getFileKey())){
+                        shareInfoPO.setSize(FileController.getFileSize2Str(summary.getSize()));
+                        if (summary.getLastModified().getTime() > shareInfoPO.getCreateTime().getTime()){
+                            shareInfoPO.setCreateTime(summary.getLastModified());
+                        }
+                        client.shutdown();
+                        return shareInfoPO;
+                    }
+                }
+                nextMarker = objectListing.getNextMarker();
+
+            } while (objectListing.isTruncated());
+            client.shutdown();
+            return null;
+        }else{
+            SimplifiedObjectMeta meta = client.getSimplifiedObjectMeta(shareInfoPO.getBucketName(), shareInfoPO.getFileKey());
+            shareInfoPO.setSize(FileController.getFileSize2Str(meta.getSize()));
+            if (meta.getLastModified().getTime() > shareInfoPO.getCreateTime().getTime()){
+                shareInfoPO.setCreateTime(meta.getLastModified());
+            }
+        }
         return shareInfoPO;
     }
 
@@ -128,5 +148,10 @@ public class ShareInfoServiceImpl implements ShareInfoService {
     @Override
     public void deleteById(String fileId, Long uid) {
         shareInfoDao.del(Method.where("id", C.EQ, fileId).and("uid", C.EQ, uid));
+    }
+
+    @Override
+    public void update(ShareInfoPO info) {
+        shareInfoDao.update(info);
     }
 }

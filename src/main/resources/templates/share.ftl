@@ -67,7 +67,7 @@
         <h3>${share.name}</h3>
         <div class="time">
             <i class="fa fa-calendar-minus-o"></i> ${share.createTime}
-            <a href="javascript:void(0);">赞(0)</a>
+            <a href="javascript:void(0);">下载(${share.downloadCount})</a>
             <a href="javascript:void(0);">评论(0)</a>
             <a href="javascript:void(0);">分享</a>
         </div>

@@ -11,11 +11,13 @@ import com.aliyun.oss.model.ListObjectsRequest;
 import com.aliyun.oss.model.OSSObjectSummary;
 import com.aliyun.oss.model.ObjectListing;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ValidationException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -135,6 +137,12 @@ public class FileController {
     @PostMapping("list/**/createFolder")
     @ResponseBody
     public ResultBean createFolder(@RequestBody FileItem fileItem, HttpServletRequest request){
+        if (null == fileItem || StringUtils.isEmpty(fileItem.getName())){
+            throw new ValidationException("目录名称不能为空");
+        }
+        if (fileItem.getName().contains("+")){
+            throw new ValidationException("目录名称中不能含有+号");
+        }
         String requestURI = request.getRequestURI();
         String path = requestURI.substring(requestURI.indexOf("files/list") + 10);
         try {
@@ -144,7 +152,6 @@ public class FileController {
         }
         path = path.substring(1, path.lastIndexOf("/") + 1);
         path += fileItem.getName() + "/";
-        System.out.println(path);
 
         UserPO user = (UserPO) request.getSession().getAttribute("LOGIN_USER");
         // 创建OSSClient实例
@@ -214,6 +221,7 @@ public class FileController {
         UserPO user = (UserPO) request.getSession().getAttribute("LOGIN_USER");
         String requestURI = request.getRequestURI();
         String path = requestURI.substring(requestURI.indexOf("files/download") + 15);
+        path = path.replace("+", "%2B");
 
         OSS client = new OSSClientBuilder().build(user.getEndPoint(), user.getAccessKey(), user.getAccessKeySecret());
         URL url = null;
@@ -257,6 +265,7 @@ public class FileController {
     public String sharePage(HttpServletRequest request){
         String requestURI = request.getRequestURI();
         String path = requestURI.substring(requestURI.indexOf("files/share") + 12);
+        path = path.replace("+", "%2B");
         request.setAttribute("fileKey", path);
         return "home/share";
     }
