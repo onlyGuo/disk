@@ -17,9 +17,11 @@ public interface OrderService {
      * 根据分享文件信息创建订单
      * @param shareInfoPO
      *      分享信息
+     * @param sessionId
+     *      当前连接SessionId(判断是否是同一人)
      * @return
      */
-    OrderPO createOrder(ShareInfoPO shareInfoPO);
+    OrderPO createOrder(ShareInfoPO shareInfoPO, String sessionId);
 
     /**
      * 列出等待付款订单列表

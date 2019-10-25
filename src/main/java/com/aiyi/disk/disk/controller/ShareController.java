@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.ValidationException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -132,10 +133,11 @@ public class ShareController {
     @NoAuth
     public ResultBean download(@PathVariable String fileId, HttpServletRequest request){
         ShareInfoPO info = shareInfoService.getById(fileId);
+        HttpSession session = request.getSession();
 
         // 密码校验
         if (!StringUtils.isEmpty(info.getPassword())){
-            String pswd = (String)request.getSession().getAttribute("PSWD:" + fileId);
+            String pswd = (String)session.getAttribute("PSWD:" + fileId);
             if (StringUtils.isEmpty(pswd)){
                 throw new ValidationException("访问授权已过期， 请重新输入访问密码");
             }
@@ -148,7 +150,7 @@ public class ShareController {
         if (null != info.getAmount() && info.getAmount().doubleValue() > 0){
             String payd = (String)request.getSession().getAttribute("PAYD:" + fileId);
             if (null == payd || !payd.equals("Y")){
-                OrderPO order = orderService.createOrder(info);
+                OrderPO order = orderService.createOrder(info, session.getId());
                 return ResultBean.error("需要付款").setResponseBody(order);
             }
         }

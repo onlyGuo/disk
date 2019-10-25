@@ -92,6 +92,10 @@ public class OrderPO extends PO {
     @TempField
     private String rqCodeContent;
 
+    private String shareFileId;
+
+    private String sessionId;
+
     public OrderPO(){super();}
 
     private OrderPO(Builder builder) {
@@ -110,10 +114,28 @@ public class OrderPO extends PO {
         setAccessKeySecret(builder.accessKeySecret);
         setSubject(builder.subject);
         setRqCodeContent(builder.rqCodeContent);
+        setShareFileId(builder.shareFileId);
+        setSessionId(builder.sessionId);
     }
 
     public static Builder newBuilder() {
         return new Builder();
+    }
+
+    public String getShareFileId() {
+        return shareFileId;
+    }
+
+    public void setShareFileId(String shareFileId) {
+        this.shareFileId = shareFileId;
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 
     public String getRqCodeContent() {
@@ -252,6 +274,8 @@ public class OrderPO extends PO {
         private String accessKeySecret;
         private String subject;
         private String rqCodeContent;
+        private String shareFileId;
+        private String sessionId;
 
         private Builder() {
         }
@@ -328,6 +352,16 @@ public class OrderPO extends PO {
 
         public Builder rqCodeContent(String val) {
             rqCodeContent = val;
+            return this;
+        }
+
+        public Builder shareFileId(String val) {
+            shareFileId = val;
+            return this;
+        }
+
+        public Builder sessionId(String val) {
+            sessionId = val;
             return this;
         }
 

@@ -49,7 +49,10 @@ public class OrderController {
         }
         if (shareInfoPO.getFileKey().equals(order.getFileKey())
                 && shareInfoPO.getEndPoint().equals(order.getEndpoint())){
-            request.getSession().setAttribute("PAYD:" + fileId, "Y");
+            // 当订单支付成功, 且订单的sessionId与当前访问的session一致(同一人), 且订单中的分享ID与当前要下载的文件一致时,添加付款编辑
+            if ("TRADE_SUCCESS".equals(order.getStatus()) && request.getSession().getId().equals(order.getSessionId())){
+                request.getSession().setAttribute("PAYD:" + order.getShareFileId(), "Y");
+            }
         }
         order.setAccessKey(null);
         order.setAccessKeySecret(null);

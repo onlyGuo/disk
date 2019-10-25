@@ -35,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public OrderPO createOrder(ShareInfoPO shareInfoPO) {
+    public OrderPO createOrder(ShareInfoPO shareInfoPO, String sessionId) {
         if (null == shareInfoPO.getAmount() || shareInfoPO.getAmount().doubleValue() <= 0){
             throw new ValidationException("免费文件不能创建订单");
         }
@@ -51,6 +51,8 @@ public class OrderServiceImpl implements OrderService {
                 .fileKey(shareInfoPO.getFileKey())
                 .orderNo(UUID.randomUUID().toString().toUpperCase())
                 .subject("文件下载[" + shareInfoPO.getName() + "]")
+                .shareFileId(shareInfoPO.getId())
+                .sessionId(sessionId)
                 .build();
         orderDao.add(build);
 
