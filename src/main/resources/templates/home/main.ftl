@@ -29,6 +29,7 @@
         <ul>
             <li class="active" addr="files/list/"><i class="fa fa-folder"></i> 全部文件</li>
             <li addr="files/myshare"><i class="fa fa-share"></i> 我的分享</li>
+            <li addr="baidu/list?start=0&length=999999"><i class="fa fa-link"></i> 百度盘直链</li>
         </ul>
     </div>
 

@@ -13,6 +13,9 @@ mybatis:
   type-aliases-package: com.aiyi.disk.entity
   mapper-locations: classpath:mappers/*.xml
 
+logging:
+  path: /data/logs/disk.log
+
 # 支付宝相关
 alipay:
   service: https://openapi.alipay.com/gateway.do
@@ -21,3 +24,9 @@ alipay:
   alipay-public-pay: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxt/bPSpdxv0idFDLw49EwMT1b0Ua9MuxzOdfH0E1O2a9sDfLfBye6m0MZtvgt9YYPL4k7UIjia3AIg9SX4IGWFDIA2MsVcxucab/MRa7YORcnE1+TIxj9djCfI8sLgjGN2r5NKI4oilAJ1WIrZ+2WTzWALRQMLqsLwk0qQsqnBrVAFoukLGX1Lj0FAalA4GL7K8SM8ag7qkiHtpwqTvbhZ5kH8utLYrt5Sp952+THSJKfZfzHiT1sruTqa/pXMYPGqDPY67K9zLUAqJ9G0Hzcnhdm98f/mo2izpX2I+2XpafuPjUfgBj6ny+L+ChqjLrF3PBXNXVRH0ddGEXLt4tWQIDAQAB
   appid: 2019070265735443
   app-private-key-path: /data/resource/app-private.key
+
+
+# 百度网盘相关
+baidu-pcs:
+  path: /data/baidu/BaiduPCS/
+  bduss: /data/resource/bdussId.txt
